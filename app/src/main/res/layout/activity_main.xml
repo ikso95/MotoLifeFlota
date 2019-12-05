@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:inputType="textCapWords"
+            android:text="@string/zglos_usterke"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/imie_i_nazwisko_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Imię i nazwisko"
+            android:inputType="textCapWords" />
+
+        <EditText
+            android:id="@+id/numer_rejestracyjny_pojazdu_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Numer rejestracyjny pojazdu"
+            android:inputType="textCapCharacters" />
+
+        <EditText
+            android:id="@+id/opis_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:hint="Podaj opis usterki"
+            android:inputType="textCapSentences"
+            android:minLines="10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/podaj_date_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Podaj datę usterki   "
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/dzien_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_action_calendar_day" />
+
+            <TextView
+                android:id="@+id/dzien_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/podaj_godzine_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Podaj godzinę usterki   "
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/godzina_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_action_clock" />
+
+            <TextView
+                android:id="@+id/godzina_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/nr_tel_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nr_telefonu"
+            android:inputType="phone" />
+
+        <Button
+            android:id="@+id/wyslij_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/wyslij"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/zadzwon_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/zadzwon"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+
+</ScrollView>
