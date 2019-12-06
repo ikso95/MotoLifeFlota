@@ -115,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkInput() == true) {
 
+                    mDialog = new ProgressDialog(MainActivity.this);
+                    mDialog.setMessage("Please wait...");
+                    mDialog.show();
+
                     Toast.makeText(MainActivity.this, "eheh", Toast.LENGTH_LONG).show();
                     email_body=makeEmailBody();
                     sendEmail(email_body);
@@ -190,9 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendEmail(final String email_body) {
 
-        mDialog = new ProgressDialog(MainActivity.this);
-        mDialog.setMessage("Please wait...");
-        mDialog.show();
+
 
 
         new Thread(new Runnable() {
@@ -206,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                             email_body,    //body message
                             "lisuoskar@gmail.com",                                           //sender
                             "oskail@wp.pl");                                     //recipent
+
                 } catch (Exception e) {
                     Log.e("SendMail", e.getMessage(), e);
                 }

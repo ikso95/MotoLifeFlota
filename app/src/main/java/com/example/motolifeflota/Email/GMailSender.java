@@ -48,6 +48,7 @@ public class GMailSender extends javax.mail.Authenticator {
         message.setSender(new InternetAddress(sender));
         message.setSubject(subject);
         message.setDataHandler(handler);
+        
 
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
 
