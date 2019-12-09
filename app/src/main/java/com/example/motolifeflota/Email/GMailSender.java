@@ -64,19 +64,40 @@ public class GMailSender extends javax.mail.Authenticator {
         else
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));*/
 
+        Transport.send(message);
+    }
+
+    public synchronized void sendMail(String subject, String body, String sender, String recipients, String attachment) throws Exception {
+        MimeMessage message = new MimeMessage(session);
+        DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
+        message.setSender(new InternetAddress(sender));
+        message.setSubject(subject);
+        message.setDataHandler(handler);
+
+
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
+
+        /*Do wykorzystania jezeli chcemy miec mozliwosc wysylania maili do wielu osob oddzielonych przecinkiem
+        if (recipients.indexOf(',') > 0)
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
+        else
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));*/
+
         // Part two is attachment
-        /*BodyPart messageBodyPart = new MimeBodyPart();
+        BodyPart messageBodyPart = new MimeBodyPart();
         Multipart multipart = new MimeMultipart();
 
+
+
         messageBodyPart = new MimeBodyPart();
-        String filename = "/storage/emulated/0/DCIM/Camera/20190620_194957.jpg"; //"/home/manisha/file.txt";
-        DataSource source = new FileDataSource(filename);
+
+        DataSource source = new FileDataSource(attachment);
         messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName(filename);
+        messageBodyPart.setFileName(attachment.substring(attachment.lastIndexOf("/")+1));
         multipart.addBodyPart(messageBodyPart);
 
         // Send the complete message parts
-        message.setContent(multipart);*/
+        message.setContent(multipart);
 
 
         Transport.send(message);

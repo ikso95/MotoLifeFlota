@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -47,6 +47,7 @@
             android:layout_below="@+id/numer_rejestracyjny_pojazdu_editText"
             android:hint="Podaj opis usterki"
             android:inputType="textCapSentences"
+            android:gravity="left"
             android:minLines="10" />
 
 
@@ -119,12 +120,24 @@
             />
 
         <Button
+            android:id="@+id/zrob_zdjecie_button"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@drawable/ic_action_camera"
             android:layout_toRightOf="@+id/zrob_zdjecie_textView"
             android:layout_alignTop="@+id/zrob_zdjecie_textView"
             />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_below="@+id/zrob_zdjecie_textView"
+            android:layout_centerHorizontal="true"
+            />
+
 
         <TextView
             android:id="@+id/wczytaj_zdjecie_textView"
@@ -137,6 +150,7 @@
             />
 
         <Button
+            android:id="@+id/wczytaj_zdjecie_button"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@drawable/ic_folder_open"
