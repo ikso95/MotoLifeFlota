@@ -139,6 +139,16 @@
             android:layout_centerHorizontal="true"
             />
 
+        <Button
+            android:id="@+id/deletePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_action_minus"
+            android:visibility="gone"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_alignRight="@+id/imageView"
+            />
+
 
         <TextView
             android:id="@+id/wczytaj_zdjecie_textView"

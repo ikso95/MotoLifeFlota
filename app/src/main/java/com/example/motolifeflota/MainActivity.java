@@ -19,6 +19,8 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText nr_rejestracyjny, imie_i_nazwisko, opis, nr_telefonu;
     private TextView dzien_textView, godzina_textView;
-    private Button wyslij, zadzwon, dzien_button, godzina_button, zrob_zdjecie, wczytaj_zdjecie;
+    private Button wyslij, zadzwon, dzien_button, godzina_button, zrob_zdjecie, wczytaj_zdjecie, deletePhoto;
     private DatePickerDialog picker;
     private ImageView imageView;
 
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         zrob_zdjecie = findViewById(R.id.zrob_zdjecie_button);
         imageView = findViewById(R.id.imageView);
+        deletePhoto=findViewById(R.id.deletePhoto);
         wczytaj_zdjecie = findViewById(R.id.wczytaj_zdjecie_button);
 
         wyslij = findViewById(R.id.wyslij_button);
@@ -222,6 +225,22 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageBitmap(rotatedBitmap);
 
+                deletePhoto.setVisibility(View.VISIBLE);
+                deletePhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        isAttachment=false;
+                        if(isAttachment)
+                        {
+                            imageFile.delete();
+                        }
+                        imageView.setVisibility(View.GONE);
+                        deletePhoto.setVisibility(View.GONE);
+                    }
+                });
+
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -316,8 +335,9 @@ public class MainActivity extends AppCompatActivity {
                                 "lisuoskar@gmail.com",                                 //sender
                                 "oskail@wp.pl",
                                 "/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka.jpg");                                     //recipent
-                        mDialog.dismiss();
                         clearInput();
+                        mDialog.dismiss();
+
                     }
                     else
                     {
@@ -325,8 +345,9 @@ public class MainActivity extends AppCompatActivity {
                                 email_body,                                                    //body message
                                 "lisuoskar@gmail.com",                                 //sender
                                 "oskail@wp.pl" );                                     //recipent
-                        mDialog.dismiss();
                         clearInput();
+                        mDialog.dismiss();
+
                     }
 
 
@@ -343,14 +364,36 @@ public class MainActivity extends AppCompatActivity {
 
     private void clearInput() {
 
-        isAttachment=false;
-        imie_i_nazwisko.setText("");
-        nr_rejestracyjny.setText("");
-        opis.setText("");
-        dzien_textView.setText("");
-        godzina_textView.setText("");
-        nr_telefonu.setText("");
-        imageFile.delete();
+        // modyfikowac widgety z UI mozna zmieniac tylko w glownym watku
+        // Get a handler that can be used to post to the main thread
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                isAttachment=false;
+                imie_i_nazwisko.setText("");
+                nr_rejestracyjny.setText("");
+                opis.setText("");
+                dzien_textView.setText("");
+                godzina_textView.setText("");
+                nr_telefonu.setText("");
+                imageView.setVisibility(View.GONE);
+
+                if(isAttachment)
+                {
+                    imageFile.delete();
+                }
+
+            } // This is your code
+        };
+        mainHandler.post(myRunnable);
+
+
+
+
+
+
 
     }
 

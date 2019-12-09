@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MotoLifeFlota</string>
+    <string name="app_name">MotoLife Flota</string>
     <string name="nr_rejestracyjny">Numer rejestracyjny pojazdu:</string>
     <string name="zglos_usterke">Zgłoś usterkę</string>
     <string name="wyslij">Wyślij!</string>
