@@ -8,16 +8,17 @@
     tools:context=".MainActivity">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="5dp"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/zglos_usterke_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:inputType="textCapWords"
             android:text="@string/zglos_usterke"
@@ -27,6 +28,7 @@
             android:id="@+id/imie_i_nazwisko_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/zglos_usterke_TextView"
             android:hint="Imię i nazwisko"
             android:inputType="textCapWords" />
 
@@ -34,6 +36,7 @@
             android:id="@+id/numer_rejestracyjny_pojazdu_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/imie_i_nazwisko_editText"
             android:hint="Numer rejestracyjny pojazdu"
             android:inputType="textCapCharacters" />
 
@@ -41,78 +44,112 @@
             android:id="@+id/opis_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
+            android:layout_below="@+id/numer_rejestracyjny_pojazdu_editText"
             android:hint="Podaj opis usterki"
             android:inputType="textCapSentences"
             android:minLines="10" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/podaj_date_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Podaj datę usterki   "
-                android:textSize="20sp" />
+        <TextView
+            android:id="@+id/podaj_date_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/opis_editText"
+            android:text="Podaj datę usterki   "
+            android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/dzien_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/ic_action_calendar_day" />
+        <Button
+            android:id="@+id/dzien_button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_toRightOf="@+id/podaj_date_textView"
+            android:layout_alignTop="@id/podaj_date_textView"
+            android:background="@drawable/ic_action_calendar_day" />
 
-            <TextView
-                android:id="@+id/dzien_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/dzien_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/dzien_button"
+            android:layout_alignTop="@id/podaj_date_textView"
+            android:textSize="20sp" />
 
 
-            <TextView
-                android:id="@+id/podaj_godzine_TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Podaj godzinę usterki   "
-                android:textSize="20sp" />
+        <TextView
+            android:id="@+id/podaj_godzine_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/podaj_date_textView"
+            android:text="Podaj godzinę usterki   "
+            android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/godzina_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/ic_action_clock" />
+        <Button
+            android:id="@+id/godzina_button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_toRightOf="@+id/podaj_godzine_TextView"
+            android:layout_alignTop="@+id/podaj_godzine_TextView"
+            android:background="@drawable/ic_action_clock" />
 
-            <TextView
-                android:id="@+id/godzina_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/godzina_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/godzina_button"
+            android:layout_alignTop="@+id/podaj_godzine_TextView"
+            android:textSize="20sp" />
+
 
         <EditText
             android:id="@+id/nr_tel_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/podaj_godzine_TextView"
             android:hint="@string/nr_telefonu"
             android:inputType="phone" />
 
-        <Button
-            android:id="@+id/zrob_zdjecie_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_action_clock" />
+        <TextView
+            android:id="@+id/zrob_zdjecie_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nr_tel_editText"
+            android:text="Zrób zdjęcie"
+            android:textSize="20sp"
+            />
 
+        <Button
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_action_camera"
+            android:layout_toRightOf="@+id/zrob_zdjecie_textView"
+            android:layout_alignTop="@+id/zrob_zdjecie_textView"
+            />
+
+        <TextView
+            android:id="@+id/wczytaj_zdjecie_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/zrob_zdjecie_textView"
+            android:text="Wczytaj zdjęcie"
+            android:textSize="20sp"
+            />
+
+        <Button
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_folder_open"
+            android:layout_toRightOf="@+id/wczytaj_zdjecie_textView"
+            android:layout_alignTop="@+id/wczytaj_zdjecie_textView"
+            />
 
         <Button
             android:id="@+id/wyslij_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/wczytaj_zdjecie_textView"
             android:text="@string/wyslij"
             android:textSize="20sp" />
 
@@ -120,11 +157,12 @@
             android:id="@+id/zadzwon_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/wyslij_button"
             android:text="@string/zadzwon"
             android:textSize="20sp" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </ScrollView>

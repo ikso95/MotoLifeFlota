@@ -65,7 +65,7 @@ public class GMailSender extends javax.mail.Authenticator {
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));*/
 
         // Part two is attachment
-        BodyPart messageBodyPart = new MimeBodyPart();
+        /*BodyPart messageBodyPart = new MimeBodyPart();
         Multipart multipart = new MimeMultipart();
 
         messageBodyPart = new MimeBodyPart();
@@ -76,7 +76,7 @@ public class GMailSender extends javax.mail.Authenticator {
         multipart.addBodyPart(messageBodyPart);
 
         // Send the complete message parts
-        message.setContent(multipart);
+        message.setContent(multipart);*/
 
 
         Transport.send(message);

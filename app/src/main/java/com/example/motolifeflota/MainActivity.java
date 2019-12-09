@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkInput() {
 
         if (!imie_i_nazwisko.getText().toString().trim().matches("") && !nr_rejestracyjny.getText().toString().trim().matches("")
-                && !dzien_textView.getText().toString().matches("") && !godzina_textView.getText().toString().matches("")
+                && !dzien_textView.getText().toString().matches("")
                 && !opis.getText().toString().trim().matches("") && !nr_telefonu.getText().toString().trim().matches("")  )
         {
             Log.d("imieInazw",imie_i_nazwisko.getText().toString().trim());
@@ -160,12 +160,6 @@ public class MainActivity extends AppCompatActivity {
             if (dzien_textView.getText().toString().equals("")) {
                 dzien_textView.setError("Proszę wypełnić dane");
             }
-
-
-            if (godzina_textView.getText().toString().equals("")) {
-                godzina_textView.setError("Proszę wypełnić dane");
-            }
-
 
             if (opis.getText().toString().trim().equals("")) {
                 opis.setError("Proszę wypełnić dane");
@@ -194,16 +188,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendEmail(final String email_body) {
 
-
-
-
         new Thread(new Runnable() {
 
             @Override
             public void run() {
                 try {
                     GMailSender sender = new GMailSender("rozproszonebazy@gmail.com",
-                            "Aezakmi1");
+                            "MotoLifeFlota");
                     sender.sendMail(getBaseContext().getString(R.string.Email_title),               //title
                             email_body,    //body message
                             "lisuoskar@gmail.com",                                           //sender
