@@ -68,37 +68,32 @@ public class GMailSender extends javax.mail.Authenticator {
     }
 
     public synchronized void sendMail(String subject, String body, String sender, String recipients, String attachment) throws Exception {
-        MimeMessage message = new MimeMessage(session);
-        DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
+
+        MimeMessage message = new MimeMessage(session);                                     //ustawienia maila
         message.setSender(new InternetAddress(sender));
         message.setSubject(subject);
-        message.setDataHandler(handler);
-
-
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
 
-        /*Do wykorzystania jezeli chcemy miec mozliwosc wysylania maili do wielu osob oddzielonych przecinkiem
-        if (recipients.indexOf(',') > 0)
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
-        else
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));*/
-
-        // Part two is attachment
-        BodyPart messageBodyPart = new MimeBodyPart();
-        Multipart multipart = new MimeMultipart();
 
 
+        BodyPart messageBodyPartBody = new MimeBodyPart();                                                      //pierwsza część maila - dane z formularza
+        DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
+        messageBodyPartBody.setDataHandler(handler);
 
-        messageBodyPart = new MimeBodyPart();
 
+        BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
         DataSource source = new FileDataSource(attachment);
-        messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName(attachment.substring(attachment.lastIndexOf("/")+1));
-        multipart.addBodyPart(messageBodyPart);
+        messageBodyPartAttachment.setDataHandler(new DataHandler(source));
+        messageBodyPartAttachment.setFileName(attachment.substring(attachment.lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
+
+
+        Multipart multipart = new MimeMultipart();                                                              //adapter do zlaczenia czesci maila
+        multipart.addBodyPart(messageBodyPartAttachment);
+        multipart.addBodyPart(messageBodyPartBody);
+
 
         // Send the complete message parts
         message.setContent(multipart);
-
 
         Transport.send(message);
     }

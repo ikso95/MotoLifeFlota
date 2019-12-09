@@ -61,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
     String currentPhotoPath = null;
 
     private Uri imageUri;
+    private File imageFile;
 
+    private boolean isAttachment=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);      //wywołanie uruchomienia aparatu
                 if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                    File imageFile = null;
+                    imageFile = null;
                     try {
                         imageFile = createImageFile();                                  //stworzenie pliku do którego zostanie zapisane zdjecie - bitmapa
                     } catch (IOException e) {
@@ -155,8 +157,6 @@ public class MainActivity extends AppCompatActivity {
                         imageUri = FileProvider.getUriForFile(MainActivity.this, "com.example.motolifeflota.fileprovider", imageFile);
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);   //dodajemy obraz do intent  - przez to ze dodajemy uri mamy adres zdjecia, nie otrzymamy w extras thumbnail obrazu (miniaturki)
                         startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);    //uruchamiamy intnet
-
-
 
                     }
 
@@ -208,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+            isAttachment=true;
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.this.getContentResolver(), imageUri);    //Stworzenie bitmap znajac uri
@@ -305,14 +307,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    GMailSender sender = new GMailSender("rozproszonebazy@gmail.com",
-                            "MotoLifeFlota");
-                    sender.sendMail(getBaseContext().getString(R.string.Email_title),               //title
-                            email_body,                                                    //body message
-                            "lisuoskar@gmail.com",                                 //sender
-                            "oskail@wp.pl",
-                            "/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka.jpg");                                     //recipent
-                    mDialog.dismiss();
+                    GMailSender sender = new GMailSender("rozproszonebazy@gmail.com","MotoLifeFlota");
+
+                    if(isAttachment)
+                    {
+                        sender.sendMail(getBaseContext().getString(R.string.Email_title),               //title
+                                email_body,                                                    //body message
+                                "lisuoskar@gmail.com",                                 //sender
+                                "oskail@wp.pl",
+                                "/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka.jpg");                                     //recipent
+                        mDialog.dismiss();
+                        clearInput();
+                    }
+                    else
+                    {
+                        sender.sendMail(getBaseContext().getString(R.string.Email_title),               //title
+                                email_body,                                                    //body message
+                                "lisuoskar@gmail.com",                                 //sender
+                                "oskail@wp.pl" );                                     //recipent
+                        mDialog.dismiss();
+                        clearInput();
+                    }
+
+
+
 
                 } catch (Exception e) {
                     Log.e("SendMail", e.getMessage(), e);
@@ -320,6 +338,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
+    }
+
+    private void clearInput() {
+
+        isAttachment=false;
+        imie_i_nazwisko.setText("");
+        nr_rejestracyjny.setText("");
+        opis.setText("");
+        dzien_textView.setText("");
+        godzina_textView.setText("");
+        nr_telefonu.setText("");
+        imageFile.delete();
 
     }
 
