@@ -1,5 +1,6 @@
 package com.example.motolifeflota;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -13,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_TAKE_PHOTO = 2;
     String currentPhotoPath = null;
 
+    private Uri imageUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         godzina_textView = findViewById(R.id.godzina_textView);
 
         zrob_zdjecie = findViewById(R.id.zrob_zdjecie_button);
+        imageView = findViewById(R.id.imageView);
         wczytaj_zdjecie = findViewById(R.id.wczytaj_zdjecie_button);
 
         wyslij = findViewById(R.id.wyslij_button);
@@ -137,19 +142,22 @@ public class MainActivity extends AppCompatActivity {
         zrob_zdjecie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);      //wywołanie uruchomienia aparatu
                 if (cameraIntent.resolveActivity(getPackageManager()) != null) {
                     File imageFile = null;
                     try {
-                        imageFile = createImageFile();
+                        imageFile = createImageFile();                                  //stworzenie pliku do którego zostanie zapisane zdjecie - bitmapa
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    if (imageFile != null) {
-                        Uri imageUri = FileProvider.getUriForFile(MainActivity.this, "com.example.motolifeflota.fileprovider", imageFile);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                        startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
+                    if (imageFile != null) {                                            //jezeli plik istnieje podajemy Uri-adres pod ktorym ma byc zapisany obraz, miejsce na dysku
+                        imageUri = FileProvider.getUriForFile(MainActivity.this, "com.example.motolifeflota.fileprovider", imageFile);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);   //dodajemy obraz do intent  - przez to ze dodajemy uri mamy adres zdjecia, nie otrzymamy w extras thumbnail obrazu (miniaturki)
+                        startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);    //uruchamiamy intnet
+
+
+
                     }
 
 
@@ -195,6 +203,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.this.getContentResolver(), imageUri);    //Stworzenie bitmap znajac uri
+
+                Matrix matrix = new Matrix();           //obrocenie zdjecia o 90 stopni
+                matrix.postRotate(90);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setImageBitmap(rotatedBitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
 
 
     private File createImageFile() throws IOException {
