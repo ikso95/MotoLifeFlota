@@ -18,7 +18,7 @@ public class FirstRunActivity extends AppCompatActivity {
     private Button checkPassword, password_visibility;
     private SharedPreferences sharedPreferences;
 
-    private boolean isPasswordVisible = false;
+    //private boolean isPasswordVisible = false;
 
     private final static String appPassword="Haslo";
 
@@ -29,7 +29,7 @@ public class FirstRunActivity extends AppCompatActivity {
 
         password=findViewById(R.id.app_password_EditText);
         checkPassword=findViewById(R.id.checkPassword_Button);
-        password_visibility=findViewById(R.id.password_visibility_button);
+        //password_visibility=findViewById(R.id.password_visibility_button);
 
         sharedPreferences = getApplicationContext().getSharedPreferences("Password", Context.MODE_PRIVATE); // 0 - for private mode
 
@@ -41,7 +41,7 @@ public class FirstRunActivity extends AppCompatActivity {
         }
 
 
-        password_visibility.setOnClickListener(new View.OnClickListener() {
+        /*password_visibility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isPasswordVisible ==false)
@@ -64,7 +64,7 @@ public class FirstRunActivity extends AppCompatActivity {
 
 
             }
-        });
+        });*/
 
 
         checkPassword.setOnClickListener(new View.OnClickListener() {

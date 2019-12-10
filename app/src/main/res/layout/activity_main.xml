@@ -24,46 +24,89 @@
             android:text="@string/zglos_usterke"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/imie_i_nazwisko_editText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/imie_i_nazwisko_textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/zglos_usterke_TextView"
             android:hint="Imię i nazwisko"
-            android:inputType="textCapWords" />
+            android:layout_below="@+id/zglos_usterke_TextView"
+            >
 
-        <EditText
-            android:id="@+id/nr_tel_editText"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/imie_i_nazwisko_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textSize="20sp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nr_tel_editText_textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imie_i_nazwisko_editText"
             android:hint="@string/nr_telefonu"
-            android:inputType="phone" />
+            android:layout_below="@+id/imie_i_nazwisko_textInputLayout"
+            >
 
-        <EditText
-            android:id="@+id/numer_rejestracyjny_pojazdu_editText"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nr_tel_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:textSize="20sp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/numer_rejestracyjny_pojazdu_textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/nr_tel_editText"
-            android:hint="Numer rejestracyjny pojazdu"
-            android:inputType="textCapCharacters" />
+            android:hint="Numer rejestracyjny"
+            android:layout_below="@+id/nr_tel_editText_textInputLayout"
+            >
 
-        <EditText
-            android:id="@+id/opis_editText"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/numer_rejestracyjny_pojazdu_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/opis_textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/numer_rejestracyjny_pojazdu_editText"
-            android:hint="Podaj opis usterki"
-            android:inputType="textCapSentences"
-            android:gravity="left"
-            android:minLines="10" />
+            android:hint="Opis usterki"
+            android:layout_below="@+id/numer_rejestracyjny_pojazdu_textInputLayout"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/opis_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:gravity="left"
+                android:minLines="10"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
         <TextView
             android:id="@+id/podaj_date_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/opis_editText"
+            android:layout_below="@+id/opis_textInputLayout"
             android:text="Podaj datę usterki   "
             android:textSize="20sp" />
 
