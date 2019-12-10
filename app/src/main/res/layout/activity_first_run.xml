@@ -17,15 +17,32 @@
         android:layout_above="@+id/app_password_EditText"
         />
 
+
+
     <EditText
         android:id="@+id/app_password_EditText"
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:paddingRight="40dp"
         android:hint="Hasło"
         android:textSize="20sp"
+        android:inputType="textPassword"
         />
+
+    <Button
+        android:id="@+id/password_visibility_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignRight="@+id/app_password_EditText"
+        android:layout_alignTop="@+id/app_password_EditText"
+        android:background="@drawable/ic_visibility_off"
+
+        />
+
 
     <Button
         android:id="@+id/checkPassword_Button"

@@ -33,10 +33,18 @@
             android:inputType="textCapWords" />
 
         <EditText
-            android:id="@+id/numer_rejestracyjny_pojazdu_editText"
+            android:id="@+id/nr_tel_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imie_i_nazwisko_editText"
+            android:hint="@string/nr_telefonu"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/numer_rejestracyjny_pojazdu_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nr_tel_editText"
             android:hint="Numer rejestracyjny pojazdu"
             android:inputType="textCapCharacters" />
 
@@ -102,19 +110,11 @@
             android:textSize="20sp" />
 
 
-        <EditText
-            android:id="@+id/nr_tel_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/podaj_godzine_TextView"
-            android:hint="@string/nr_telefonu"
-            android:inputType="phone" />
-
         <TextView
             android:id="@+id/zrob_zdjecie_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/nr_tel_editText"
+            android:layout_below="@id/godzina_textView"
             android:text="Zrób zdjęcie"
             android:textSize="20sp"
             />
@@ -144,9 +144,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_action_minus"
+            android:text="-"
             android:visibility="gone"
             android:layout_alignTop="@+id/imageView"
             android:layout_alignRight="@+id/imageView"
+
+
             />
 
 
