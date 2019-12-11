@@ -17,6 +17,19 @@
         android:layout_above="@+id/app_password"
         />
 
+    <com.libizo.CustomEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="Haslo"
+        android:inputType="textPassword"
+        app:libIZO_hideShowPasswordIconTint="@color/colorBlack"
+        app:libIZO_clearIconTint="#8f1f15"
+        app:libIZO_setBorderColor="#8f1f15"
+        app:libIZO_setBorderView="true"
+        app:libIZO_setClearIconVisible="false"
+        app:libIZO_setCornerRadius="100dp"
+        app:libIZO_setStrokeWidth="2dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/app_password"

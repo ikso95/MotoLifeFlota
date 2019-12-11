@@ -67,7 +67,7 @@ public class GMailSender extends javax.mail.Authenticator {
         Transport.send(message);
     }
 
-    public synchronized void sendMail(String subject, String body, String sender, String recipients, String attachment) throws Exception {
+    public synchronized void sendMail(String subject, String body, String sender, String recipients, String attachment_path) throws Exception {
 
         MimeMessage message = new MimeMessage(session);                                     //ustawienia maila
         message.setSender(new InternetAddress(sender));
@@ -82,9 +82,9 @@ public class GMailSender extends javax.mail.Authenticator {
 
 
         BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
-        DataSource source = new FileDataSource(attachment);
+        DataSource source = new FileDataSource(attachment_path);
         messageBodyPartAttachment.setDataHandler(new DataHandler(source));
-        messageBodyPartAttachment.setFileName(attachment.substring(attachment.lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
+        messageBodyPartAttachment.setFileName(attachment_path.substring(attachment_path.lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
 
 
         Multipart multipart = new MimeMultipart();                                                              //adapter do zlaczenia czesci maila
