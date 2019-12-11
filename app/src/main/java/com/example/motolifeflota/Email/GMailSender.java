@@ -1,5 +1,7 @@
 package com.example.motolifeflota.Email;
 
+import android.util.Log;
+
 import java.security.Security;
 import java.util.Properties;
 
@@ -67,7 +69,7 @@ public class GMailSender extends javax.mail.Authenticator {
         Transport.send(message);
     }
 
-    public synchronized void sendMail(String subject, String body, String sender, String recipients, String attachment_path) throws Exception {
+    public synchronized void sendMail(String subject, String body, String sender, String recipients, String attachment_path, int number_of_attachments) throws Exception {
 
         MimeMessage message = new MimeMessage(session);                                     //ustawienia maila
         message.setSender(new InternetAddress(sender));
@@ -75,21 +77,23 @@ public class GMailSender extends javax.mail.Authenticator {
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
 
 
+        Multipart multipart = new MimeMultipart(); //adapter do zlaczenia czesci maila
+
 
         BodyPart messageBodyPartBody = new MimeBodyPart();                                                      //pierwsza część maila - dane z formularza
         DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
         messageBodyPartBody.setDataHandler(handler);
-
-
-        BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
-        DataSource source = new FileDataSource(attachment_path);
-        messageBodyPartAttachment.setDataHandler(new DataHandler(source));
-        messageBodyPartAttachment.setFileName(attachment_path.substring(attachment_path.lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
-
-
-        Multipart multipart = new MimeMultipart();                                                              //adapter do zlaczenia czesci maila
-        multipart.addBodyPart(messageBodyPartAttachment);
         multipart.addBodyPart(messageBodyPartBody);
+
+
+        for(int i=0;i<number_of_attachments;i++)
+        {
+            BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
+            DataSource source = new FileDataSource(attachment_path+String.valueOf(i)+".jpg");
+            messageBodyPartAttachment.setDataHandler(new DataHandler(source));
+            messageBodyPartAttachment.setFileName((attachment_path+String.valueOf(i)+".jpg").substring((attachment_path+String.valueOf(i)+".jpg").lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
+            multipart.addBodyPart(messageBodyPartAttachment);
+        }
 
 
         // Send the complete message parts

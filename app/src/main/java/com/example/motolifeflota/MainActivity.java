@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private File imageFile;
 
     private boolean isAttachment = false;
+    private int nrPhotos=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,9 +149,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // Here, thisActivity is the current activity
+                //Check Camera permission
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
+                        //Permission not granted, request permission
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
 
                 } else {
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 if (checkInput() == true) {
 
                     mDialog = new ProgressDialog(MainActivity.this);
-                    mDialog.setMessage("Please wait...");
+                    mDialog.setMessage("Proszę czekać ...");
                     mDialog.show();
 
 
@@ -227,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 isAttachment = true;
+                nrPhotos++;
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.this.getContentResolver(), imageUri);    //Stworzenie bitmap znajac uri
 
@@ -249,6 +251,8 @@ public class MainActivity extends AppCompatActivity {
 
                         imageView.setVisibility(View.GONE);
                         deletePhoto.setVisibility(View.GONE);
+                        clearDirectory();
+                        nrPhotos=0;
                     }
                 });
 
@@ -266,8 +270,8 @@ public class MainActivity extends AppCompatActivity {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "MotoLifeFlota_usterka";
+        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "MotoLifeFlota_usterka"+String.valueOf(nrPhotos);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         //File storageDir = new File(Environment.getExternalStorageDirectory().getPath()+ "/MyAppFolder/MyApp");//getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -344,16 +348,17 @@ public class MainActivity extends AppCompatActivity {
                     GMailSender sender = new GMailSender("rozproszonebazy@gmail.com", "MotoLifeFlota");
 
                     if (isAttachment) {
-                        sender.sendMail(getBaseContext().getString(R.string.Email_title),               //title
+                        sender.sendMail(getBaseContext().getString(R.string.Email_title) + nr_rejestracyjny.getText().toString(),               //title
                                 email_body,                                                    //body message
                                 "lisuoskar@gmail.com",                                 //sender
                                 "oskail@wp.pl",
-                                "/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka.jpg");                                     //recipent
+                                "/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka",//.jpg",
+                                nrPhotos);                                     //recipent           nrPhotos liczone od 0!
                         clearInput();
                         mDialog.dismiss();
 
                     } else {
-                        sender.sendMail(getBaseContext().getString(R.string.Email_title),               //title
+                        sender.sendMail(getBaseContext().getString(R.string.Email_title) + nr_rejestracyjny.getText().toString(),               //title
                                 email_body,                                                    //body message
                                 "lisuoskar@gmail.com",                                 //sender
                                 "oskail@wp.pl");                                     //recipent
@@ -391,7 +396,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (isAttachment) {
+                    nrPhotos=0;
                     imageView.setVisibility(View.GONE);
+                    clearDirectory();
                     imageFile.delete();
                     deletePhoto.setVisibility(View.GONE);
                 }
@@ -404,9 +411,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void clearDirectory()
+    {
+        File dir = new File("/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures");
+        if (dir.isDirectory())
+        {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                new File(dir, children[i]).delete();
+            }
+        }
+    }
+
+
     @Override
     protected void onDestroy() {
-
         //Przy wyłączeniu aktywności usuwam całą zawartość naszego folderu, żeby unikać gromadzenia danych i związanych z tym bugów
         super.onDestroy();
         File dir = new File("/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures");
@@ -418,6 +438,8 @@ public class MainActivity extends AppCompatActivity {
                 new File(dir, children[i]).delete();
             }
         }
-
     }
+
+
+
 }
