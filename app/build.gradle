@@ -1,11 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
+    //compileSdkVersion 28
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.motolifeflota"
         minSdkVersion 21
+        //targetSdkVersion 28
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -28,7 +30,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation files('libs/mail.jar', 'libs/activation.jar', 'libs/additionnal.jar')
     implementation "com.google.android.material:material:1.0.0"
-    implementation 'com.libizo:customedittext:1.0.6'
-    implementation 'tyrantgit:explosionfield:1.0.1'
-    implementation 'com.github.nikartm:image-support:1.0.5'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.libizo:customedittext:1.0.6'            //CustomEditText
+    implementation 'com.github.nikartm:image-support:1.0.5'     //imageBadgeVie
+    implementation 'com.github.HBiSoft:PickiT:0.1.7'            //file picker
+
 }

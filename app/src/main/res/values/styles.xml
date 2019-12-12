@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DeleteImageButton" parent="Theme.AppCompat.Light">
+        <item name="colorButtonNormal">#020e39</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 </resources>

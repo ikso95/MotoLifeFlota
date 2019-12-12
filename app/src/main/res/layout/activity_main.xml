@@ -186,15 +186,13 @@
 
         <Button
             android:id="@+id/deletePhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_action_minus"
-            android:text="-"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:textColor="@color/colorWhite"
             android:visibility="gone"
+            android:background="@drawable/ic_delete"
+            android:layout_toRightOf="@+id/imageView"
             android:layout_alignTop="@+id/imageView"
-            android:layout_alignRight="@+id/imageView"
-
-
             />
 
 
@@ -217,12 +215,15 @@
             android:layout_alignTop="@+id/wczytaj_zdjecie_textView"
             />
 
+
+
+
         <Button
             android:id="@+id/wyslij_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/wczytaj_zdjecie_textView"
+            android:layout_below="@+id/wczytaj_zdjecie_button"
             android:text="@string/wyslij"
             android:textSize="20sp" />
 
@@ -233,6 +234,15 @@
             android:layout_below="@+id/wyslij_button"
             android:text="@string/zadzwon"
             android:textSize="20sp" />
+
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/slideViewPager_start"
+            android:layout_width="match_parent"
+            android:layout_height="@android:dimen/thumbnail_height"
+            android:layout_below="@+id/zadzwon_button"
+            />
 
 
     </RelativeLayout>

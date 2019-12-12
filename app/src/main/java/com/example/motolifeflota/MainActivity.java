@@ -1,19 +1,23 @@
 package com.example.motolifeflota;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -25,18 +29,22 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.motolifeflota.Email.GMailSender;
+import com.example.motolifeflota.PhotosRecyclerView.SliderAdapter;
+import com.hbisoft.pickit.PickiT;
+import com.hbisoft.pickit.PickiTCallbacks;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PickiTCallbacks {
 
     private EditText nr_rejestracyjny, imie_i_nazwisko, opis, nr_telefonu;
     private TextView dzien_textView, godzina_textView;
@@ -55,18 +63,69 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int CAMERA_PERMISSION_CODE = 2;
     static final int REQUEST_GET_SINGLE_FILE = 3;
-    String currentPhotoPath = null;
+    static final int STORAGE_PERMISSION_CODE = 4;
+
+    private String currentPhotoPath = null;
 
     private Uri imageUri;
     private File imageFile;
 
     private boolean isAttachment = false;
-    private int nrPhotos=0;
+    private int nrOfTakenPhotos =0;
+    private int nrOfStorageFiles =0;
+    private List<String> storageFilesPathsList;
+
+
+
+
+    //-------------------------------------------
+    private ViewPager mSlideViewPager;
+    private LinearLayout mDotLayout;
+    private SliderAdapter sliderAdapter;
+    private int mCurrentPage;
+    //-------------------------------------------
+    PickiT pickiT;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        clearDirectory();
+
+        pickiT = new PickiT(this, this);
+
+        //-------------------------------------------
+        /*mSlideViewPager = (ViewPager)findViewById(R.id.slideViewPager_start);
+        sliderAdapter = new SliderAdapter(this);
+        mSlideViewPager.setAdapter(sliderAdapter);
+        mSlideViewPager.addOnPageChangeListener(viewListener);*/
+
+
+        //automatyczne czasowe przesuwanie się slajdów co określony okres czasu
+        //po przejsciu wszystkich okien wraca spowrotem do pierwszego slajdu
+        /*final Handler refreshHandler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                mCurrentPage++;
+                if(mCurrentPage==4)
+                {
+                    mCurrentPage=0;
+                    mSlideViewPager.setCurrentItem(getItem(-4));
+                }
+                else
+                {
+                    mSlideViewPager.setCurrentItem(getItem(1));
+                }
+                refreshHandler.postDelayed(this,  5000);
+            }
+        };
+        refreshHandler.postDelayed(runnable, 5000);*/
+        //-------------------------------------------
+
 
 
         nr_rejestracyjny = findViewById(R.id.numer_rejestracyjny_pojazdu_editText);
@@ -90,9 +149,7 @@ public class MainActivity extends AppCompatActivity {
         wyslij = findViewById(R.id.wyslij_button);
         zadzwon = findViewById(R.id.zadzwon_button);
 
-
-
-
+        storageFilesPathsList = new ArrayList<String>();
 
 
         dzien_button.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
         godzina_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Calendar mcurrentTime = Calendar.getInstance();
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
@@ -182,11 +240,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         wczytaj_zdjecie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    //Permission not granted, request permission
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
 
-
+                } else {
+                    //Permission granted
+                    Intent intent = new Intent();
+                    intent.setType("image/* video/*");                  //to choose all files image/* or image/jpg or video/* or video/mp4
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GET_SINGLE_FILE);
+                }
             }
         });
 
@@ -220,25 +288,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //----------------------------------------------------------------
+    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+        }
+
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+
+        }
+    };
+
+    private int getItem(int i) {
+        return mSlideViewPager.getCurrentItem() + i;
+    }
+    //------------------------------------------------------------------------------------
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
 
+
+        //Jeżeli zrobiono zdjęcie
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             try {
                 isAttachment = true;
-                nrPhotos++;
+                nrOfTakenPhotos++;
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.this.getContentResolver(), imageUri);    //Stworzenie bitmap znajac uri
 
                 Matrix matrix = new Matrix();           //obrocenie zdjecia o 90 stopni
                 matrix.postRotate(90);
-                //Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
-                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
 
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageBitmap(rotatedBitmap);
+
 
                 deletePhoto.setVisibility(View.VISIBLE);
                 deletePhoto.setOnClickListener(new View.OnClickListener() {
@@ -252,14 +350,48 @@ public class MainActivity extends AppCompatActivity {
                         imageView.setVisibility(View.GONE);
                         deletePhoto.setVisibility(View.GONE);
                         clearDirectory();
-                        nrPhotos=0;
+                        nrOfTakenPhotos = 0;
                     }
                 });
+
+                //-------------------------------------------
+                mSlideViewPager = (ViewPager)findViewById(R.id.slideViewPager_start);
+                sliderAdapter = new SliderAdapter(MainActivity.this,"/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka", nrOfTakenPhotos);
+                mSlideViewPager.setAdapter(sliderAdapter);
+
+                mSlideViewPager.addOnPageChangeListener(viewListener);
+                //-------------------------------------------
 
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+
+        //Jeżeli wybrano plik z pamięci telefonu
+        if (requestCode == REQUEST_GET_SINGLE_FILE && resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
+                pickiT.getPath(data.getData(), Build.VERSION.SDK_INT);
+
+
+            }
+        }
+
+        //jezeli cos nie zadziala wyswietl komunikat
+        if(resultCode!=RESULT_OK)
+        {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)//set icon
+                    .setTitle("Error")//set title
+                    .setMessage("Wystąpił nieoczekiwany błąd, spróbuj ponownie")     //set message
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {//set positive button
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    })
+                    .show();
         }
 
 
@@ -271,7 +403,7 @@ public class MainActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
         // Create an image file name
         //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "MotoLifeFlota_usterka"+String.valueOf(nrPhotos);
+        String imageFileName = "MotoLifeFlota_usterka"+String.valueOf(nrOfTakenPhotos);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         //File storageDir = new File(Environment.getExternalStorageDirectory().getPath()+ "/MyAppFolder/MyApp");//getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -351,9 +483,10 @@ public class MainActivity extends AppCompatActivity {
                         sender.sendMail(getBaseContext().getString(R.string.Email_title) + nr_rejestracyjny.getText().toString(),               //title
                                 email_body,                                                    //body message
                                 "lisuoskar@gmail.com",                                 //sender
-                                "oskail@wp.pl",
-                                "/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka",//.jpg",
-                                nrPhotos);                                     //recipent           nrPhotos liczone od 0!
+                                "oskail@wp.pl",                                      //recipent
+                                "/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka",//.jpg",  //sciezka do zrobionych zdjec
+                                nrOfTakenPhotos,                                                //nrOfTakenPhotos liczone od 0!
+                                storageFilesPathsList);
                         clearInput();
                         mDialog.dismiss();
 
@@ -394,9 +527,11 @@ public class MainActivity extends AppCompatActivity {
                 godzina_textView.setText("");
                 nr_telefonu.setText("");
 
+                storageFilesPathsList.clear();
+
 
                 if (isAttachment) {
-                    nrPhotos=0;
+                    nrOfTakenPhotos =0;
                     imageView.setVisibility(View.GONE);
                     clearDirectory();
                     imageFile.delete();
@@ -441,5 +576,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void PickiTonStartListener() {
 
+    }
+
+    @Override
+    public void PickiTonProgressUpdate(int progress) {
+
+    }
+
+    @Override
+    public void PickiTonCompleteListener(String path, boolean wasDriveFile, boolean wasUnknownProvider, boolean wasSuccessful, String Reason) {
+
+        isAttachment=true;
+        storageFilesPathsList.add(path);
+        Log.d("path",path+"   <--- wygenerwowane dzieki bibliotece pickit");
+    }
 }

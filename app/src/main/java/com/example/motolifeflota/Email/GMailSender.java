@@ -3,6 +3,7 @@ package com.example.motolifeflota.Email;
 import android.util.Log;
 
 import java.security.Security;
+import java.util.List;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -24,6 +25,8 @@ public class GMailSender extends javax.mail.Authenticator {
     private String user;
     private String password;
     private Session session;
+
+    private List<String> storageFilesPathsList;
 
     static {
         Security.addProvider(new JSSEProvider());
@@ -69,7 +72,9 @@ public class GMailSender extends javax.mail.Authenticator {
         Transport.send(message);
     }
 
-    public synchronized void sendMail(String subject, String body, String sender, String recipients, String attachment_path, int number_of_attachments) throws Exception {
+    public synchronized void sendMail(String subject, String body, String sender, String recipients, String attachment_path, int number_of_attachments, List<String> storageFilesPathsList) throws Exception {
+
+        this.storageFilesPathsList=storageFilesPathsList;
 
         MimeMessage message = new MimeMessage(session);                                     //ustawienia maila
         message.setSender(new InternetAddress(sender));
@@ -86,12 +91,21 @@ public class GMailSender extends javax.mail.Authenticator {
         multipart.addBodyPart(messageBodyPartBody);
 
 
-        for(int i=0;i<number_of_attachments;i++)
+        for(int i=0;i<number_of_attachments;i++)            //dodwanie zrobionych zdjec
         {
             BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
             DataSource source = new FileDataSource(attachment_path+String.valueOf(i)+".jpg");
             messageBodyPartAttachment.setDataHandler(new DataHandler(source));
             messageBodyPartAttachment.setFileName((attachment_path+String.valueOf(i)+".jpg").substring((attachment_path+String.valueOf(i)+".jpg").lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
+            multipart.addBodyPart(messageBodyPartAttachment);
+        }
+
+        for(int i=0; i<storageFilesPathsList.size();i++)       //dodawanie wczytanych plikow
+        {
+            BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
+            DataSource source = new FileDataSource(storageFilesPathsList.get(i));
+            messageBodyPartAttachment.setDataHandler(new DataHandler(source));
+            messageBodyPartAttachment.setFileName((storageFilesPathsList.get(i)).substring((storageFilesPathsList.get(i)).lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
             multipart.addBodyPart(messageBodyPartAttachment);
         }
 
