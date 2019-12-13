@@ -11,21 +11,20 @@
         android:id="@+id/firstRun_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/app_password"
         android:layout_marginHorizontal="20dp"
         android:text="Aby korzystać z aplikacji podaj hasło dostępu:"
-        android:textSize="20sp"
-        android:layout_above="@+id/app_password"
-        />
+        android:textAlignment="center"
+        android:textSize="20sp" />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/app_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:passwordToggleEnabled="true"
-        android:hint="Haslo"
         android:layout_centerVertical="true"
-        >
+        android:hint="Haslo"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/app_password_EditText"
@@ -33,23 +32,36 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:inputType="textPassword"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
-
-    <Button
+    <at.markushi.ui.CircleButton
         android:id="@+id/checkPassword_Button"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="64dip"
+        android:layout_height="64dip"
         android:layout_below="@+id/app_password"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_check"
-        />
+        android:src="@drawable/ic_check"
+        app:cb_color="#99CC00"
+        app:cb_pressedRingWidth="8dip" />
+
+    <com.example.myloadingbutton.MyLoadingButton
+        android:id="@+id/my_loading_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkPassword_Button"
+        android:layout_centerHorizontal="true"
+        app:mlb_animationDuration="300"
+        app:mlb_backgroundColor="@color/view_color_gray"
+        app:mlb_label="Login Button"
+        app:mlb_labelColor="@color/colorAccent"
+        app:mlb_labelSize="5sp"
+        app:mlb_loaderColor="@color/colorPrimaryDark"
+        app:mlb_setDoneIcon="@drawable/ic_progress_done"
+        app:mlb_setErrorIcon="@drawable/ic_progress_done"
+        app:mlb_setNormalAfterError="false" />
 
 
 </RelativeLayout>
