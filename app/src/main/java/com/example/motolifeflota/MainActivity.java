@@ -46,6 +46,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PickiTCallbacks {
 
+    //master 1
+
     private EditText nr_rejestracyjny, imie_i_nazwisko, opis, nr_telefonu;
     private TextView dzien_textView, godzina_textView;
     private Button wyslij, zadzwon, dzien_button, godzina_button, zrob_zdjecie, wczytaj_zdjecie, deletePhoto;
