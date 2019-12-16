@@ -1,11 +1,13 @@
 package com.example.motolifeflota.Vertical_form_steps;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.motolifeflota.MainActivity;
+import com.example.motolifeflota.R;
 
 import java.util.Calendar;
 
@@ -23,9 +26,10 @@ public class SelectDateStep extends Step<String> {
 
 
     private DatePickerDialog picker;
-    private DatePicker picker2;
     private TextView dateTextView;
     private Button pickDateButton;
+    private LayoutInflater inflater;
+    private View view;
 
     public SelectDateStep(String stepTitle) {
         super(stepTitle);
@@ -37,12 +41,12 @@ public class SelectDateStep extends Step<String> {
     protected View createStepContentLayout() {
         // Here we generate the view that will be used by the library as the content of the step.
         // In this case we do it programmatically, but we could also do it by inflating an XML layout.
-        LinearLayout content = new LinearLayout(getContext());
+        inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.step_select_date,null);
 
-        dateTextView = new TextView(getContext());
-        pickDateButton = new Button(getContext());
-        pickDateButton.setText("Wybierz datę");
-        pickDateButton.setTextSize(20);
+        pickDateButton = view.findViewById(R.id.pick_date_button);
+        dateTextView = view.findViewById(R.id.date_TextView);
+
 
         pickDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +75,11 @@ public class SelectDateStep extends Step<String> {
 
 
 
-        content.addView(pickDateButton);
-        content.addView(dateTextView);
+        //content.addView(pickDateButton);
+        //content.addView(dateTextView);
 
 
-        return content;
+        return view;
     }
 
     @Override

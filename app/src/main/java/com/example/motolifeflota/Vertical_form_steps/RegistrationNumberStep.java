@@ -1,16 +1,22 @@
 package com.example.motolifeflota.Vertical_form_steps;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.motolifeflota.R;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 
 public class RegistrationNumberStep extends Step<String> {
 
     private EditText registrationNumberEditText;
+    private LayoutInflater inflater;
+    private View view;
 
 
     public RegistrationNumberStep(String stepTitle) {
@@ -23,10 +29,11 @@ public class RegistrationNumberStep extends Step<String> {
     protected View createStepContentLayout() {
         // Here we generate the view that will be used by the library as the content of the step.
         // In this case we do it programmatically, but we could also do it by inflating an XML layout.
-        registrationNumberEditText = new EditText(getContext());
-        registrationNumberEditText.setSingleLine(true);
-        registrationNumberEditText.setHint("Nr rejestracyjny pojazdu");
-        registrationNumberEditText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        inflater = (LayoutInflater)getContext().getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.step_registration_number,null);
+
+        registrationNumberEditText = view.findViewById(R.id.registration_number_EditText);
 
         registrationNumberEditText.addTextChangedListener(new TextWatcher() {
 
@@ -48,8 +55,8 @@ public class RegistrationNumberStep extends Step<String> {
 
             }
         });
-
-        return registrationNumberEditText;
+        registrationNumberEditText.requestFocus();
+        return view;
     }
 
     @Override

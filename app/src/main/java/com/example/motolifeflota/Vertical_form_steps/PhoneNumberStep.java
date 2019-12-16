@@ -1,16 +1,22 @@
 package com.example.motolifeflota.Vertical_form_steps;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.motolifeflota.R;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 
 public class PhoneNumberStep extends Step<String> {
 
-    private EditText phoneNumberEditText;
+    public EditText phoneNumberEditText;
+    private LayoutInflater inflater;
+    private View view;
 
 
     public PhoneNumberStep(String stepTitle) {
@@ -23,10 +29,14 @@ public class PhoneNumberStep extends Step<String> {
     protected View createStepContentLayout() {
         // Here we generate the view that will be used by the library as the content of the step.
         // In this case we do it programmatically, but we could also do it by inflating an XML layout.
-        phoneNumberEditText = new EditText(getContext());
-        phoneNumberEditText.setSingleLine(true);
-        phoneNumberEditText.setHint("Nr telefonu");
-        phoneNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
+
+
+        inflater = (LayoutInflater)getContext().getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.step_phone_number,null);
+
+        phoneNumberEditText = view.findViewById(R.id.phone_number_EditText);
+        phoneNumberEditText.requestFocus();
 
         phoneNumberEditText.addTextChangedListener(new TextWatcher() {
 
@@ -49,7 +59,8 @@ public class PhoneNumberStep extends Step<String> {
             }
         });
 
-        return phoneNumberEditText;
+
+        return view;
     }
 
     @Override

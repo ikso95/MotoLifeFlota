@@ -1,26 +1,31 @@
 package com.example.motolifeflota.Vertical_form_steps;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.motolifeflota.R;
 
+import java.util.Calendar;
+
 import ernestoyaquello.com.verticalstepperform.Step;
 
-public class DescriptionStep extends Step<String> {
+public class SelectTimeStep extends Step<String> {
 
-    private EditText descriptionEditText;
+
+
+    private TextView timeTextView;
+    private Button pickTimeButton;
     private LayoutInflater inflater;
     private View view;
+    private String selMinute;
 
-
-    public DescriptionStep(String stepTitle) {
+    public SelectTimeStep(String stepTitle) {
         super(stepTitle);
     }
 
@@ -30,36 +35,46 @@ public class DescriptionStep extends Step<String> {
     protected View createStepContentLayout() {
         // Here we generate the view that will be used by the library as the content of the step.
         // In this case we do it programmatically, but we could also do it by inflating an XML layout.
-        inflater = (LayoutInflater)getContext().getSystemService
-                (Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.step_description,null);
+        inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.step_select_time,null);
 
-        descriptionEditText = view.findViewById(R.id.description_EditText);
-        descriptionEditText.setSingleLine(false);
-        descriptionEditText.setMinLines(5);
+        pickTimeButton = view.findViewById(R.id.pick_time_button);
+        timeTextView = view.findViewById(R.id.time_TextView);
 
 
-        descriptionEditText.addTextChangedListener(new TextWatcher() {
 
+
+
+        pickTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onClick(View view) {
 
-            }
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Whenever the user updates the user name text, we update the state of the step.
-                // The step will be marked as completed only if its data is valid, which will be
-                // checked automatically by the form with a call to isStepDataValid().
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        timeTextView.setVisibility(View.VISIBLE);
+                        if (selectedMinute < 10) {
+                            selMinute = "0" + String.valueOf(selectedMinute);
+                        } else
+                            selMinute = String.valueOf(selectedMinute);
+                        timeTextView.setText(selectedHour + ":" + selMinute);
+                        selMinute = "";
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
                 markAsCompletedOrUncompleted(true);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
 
             }
         });
-        descriptionEditText.requestFocus();
+
+
+
         return view;
     }
 
@@ -69,17 +84,17 @@ public class DescriptionStep extends Step<String> {
         // three characters. In case it is not, we will display an error message for feedback.
         // In an optional step, you should implement this method to always return a valid value.
         
-        boolean isNameValid = stepData.length() > 0;
-        
+        boolean isTimeValid = true;
 
-        return new IsDataValid(isNameValid);
+
+        return new IsDataValid(isTimeValid);
     }
 
     @Override
     public String getStepData() {
         // We get the step's data from the value that the user has typed in the EditText view.
-        Editable userName = descriptionEditText.getText();
-        return userName != null ? userName.toString() : "";
+        String date = timeTextView.getText().toString();
+        return date != null ? timeTextView.getText().toString() : "";
     }
 
     @Override
@@ -114,6 +129,6 @@ public class DescriptionStep extends Step<String> {
     @Override
     public void restoreStepData(String stepData) {
         // To restore the step after a configuration change, we restore the text of its EditText view.
-        descriptionEditText.setText(stepData);
+        timeTextView.setText(stepData);
     }
 }

@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
@@ -35,6 +36,12 @@ import android.widget.TimePicker;
 
 import com.example.motolifeflota.Email.GMailSender;
 import com.example.motolifeflota.PhotosRecyclerView.SliderAdapter;
+import com.example.motolifeflota.Vertical_form_steps.DescriptionStep;
+import com.example.motolifeflota.Vertical_form_steps.NameStep;
+import com.example.motolifeflota.Vertical_form_steps.PhoneNumberStep;
+import com.example.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
+import com.example.motolifeflota.Vertical_form_steps.SelectDateStep;
+import com.example.motolifeflota.Vertical_form_steps.SelectTimeStep;
 import com.hbisoft.pickit.PickiT;
 import com.hbisoft.pickit.PickiTCallbacks;
 
@@ -44,7 +51,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PickiTCallbacks {
+import ernestoyaquello.com.verticalstepperform.VerticalStepperFormView;
+import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener;
+
+public class MainActivity extends AppCompatActivity implements PickiTCallbacks, StepperFormListener {
 
     //master 1
     //bra 123
@@ -87,7 +97,17 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks {
     private SliderAdapter sliderAdapter;
     private int mCurrentPage;
     //-------------------------------------------
-    PickiT pickiT;
+    private PickiT pickiT;
+
+
+    private NameStep nameStep;
+    private PhoneNumberStep phoneNumberStep;
+    private RegistrationNumberStep registrationNumberStep;
+    private DescriptionStep descriptionStep;
+    private SelectDateStep selectDateStep;
+    private SelectTimeStep selectTimeStep;
+
+    private VerticalStepperFormView verticalStepperForm;
 
 
 
@@ -99,6 +119,29 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks {
         clearDirectory();
 
         pickiT = new PickiT(this, this);
+
+        nameStep=new NameStep("Imię i nazwisko");
+        phoneNumberStep = new PhoneNumberStep("Numer telefonu");
+        registrationNumberStep = new RegistrationNumberStep("Numer rejestracyjny");
+        descriptionStep = new DescriptionStep("Opis usterki");
+        selectDateStep = new SelectDateStep("Data");
+        selectTimeStep = new SelectTimeStep("Godzina");
+
+
+        verticalStepperForm = findViewById(R.id.stepper_form);
+
+        verticalStepperForm.setup(this, nameStep, phoneNumberStep,
+                registrationNumberStep,descriptionStep,selectDateStep,selectTimeStep)
+                .stepNextButtonText("Dalej")
+                .lastStepNextButtonText("Wyślij")
+                .confirmationStepTitle("Wyślij zgłoszenie")
+                .displayCancelButtonInLastStep(true)
+                //.lastStepCancelButtonColors(Color.red())
+                .lastStepCancelButtonText("Anuluj")
+
+                .init();
+
+
 
         //-------------------------------------------
         /*mSlideViewPager = (ViewPager)findViewById(R.id.slideViewPager_start);
@@ -130,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks {
         //-------------------------------------------
 
 
-
+/*
         nr_rejestracyjny = findViewById(R.id.numer_rejestracyjny_pojazdu_editText);
         imie_i_nazwisko = findViewById(R.id.imie_i_nazwisko_editText);
         opis = findViewById(R.id.opis_editText);
@@ -287,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks {
             }
         });
 
-
+*/
     }
 
 
@@ -358,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks {
                 });
 
                 //-------------------------------------------
-                mSlideViewPager = (ViewPager)findViewById(R.id.slideViewPager_start);
+                //mSlideViewPager = (ViewPager)findViewById(R.id.slideViewPager_start);     //odkomentować! to jest dobrze
                 sliderAdapter = new SliderAdapter(MainActivity.this,"/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka", nrOfTakenPhotos);
                 mSlideViewPager.setAdapter(sliderAdapter);
 
@@ -595,5 +638,15 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks {
         isAttachment=true;
         storageFilesPathsList.add(path);
         Log.d("path",path+"   <--- wygenerwowane dzieki bibliotece pickit");
+    }
+
+    @Override
+    public void onCompletedForm() {
+
+    }
+
+    @Override
+    public void onCancelledForm() {
+
     }
 }
