@@ -24,6 +24,7 @@ public class SelectTimeStep extends Step<String> {
     private LayoutInflater inflater;
     private View view;
     private String selMinute;
+    private String time = "";
 
     public SelectTimeStep(String stepTitle) {
         super(stepTitle);
@@ -63,6 +64,7 @@ public class SelectTimeStep extends Step<String> {
                         } else
                             selMinute = String.valueOf(selectedMinute);
                         timeTextView.setText(selectedHour + ":" + selMinute);
+                        time=selectedHour + ":" + selMinute;
                         selMinute = "";
                     }
                 }, hour, minute, true);//Yes 24 hour time
@@ -76,6 +78,10 @@ public class SelectTimeStep extends Step<String> {
 
 
         return view;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     @Override

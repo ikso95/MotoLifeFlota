@@ -17,6 +17,7 @@ public class RegistrationNumberStep extends Step<String> {
     private EditText registrationNumberEditText;
     private LayoutInflater inflater;
     private View view;
+    private String registrationNumber;
 
 
     public RegistrationNumberStep(String stepTitle) {
@@ -48,15 +49,20 @@ public class RegistrationNumberStep extends Step<String> {
                 // The step will be marked as completed only if its data is valid, which will be
                 // checked automatically by the form with a call to isStepDataValid().
                 markAsCompletedOrUncompleted(true);
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                registrationNumber=registrationNumberEditText.getText().toString();
             }
         });
-        registrationNumberEditText.requestFocus();
+
         return view;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
     @Override

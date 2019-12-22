@@ -30,6 +30,7 @@ public class SelectDateStep extends Step<String> {
     private Button pickDateButton;
     private LayoutInflater inflater;
     private View view;
+    private String date;
 
     public SelectDateStep(String stepTitle) {
         super(stepTitle);
@@ -63,6 +64,7 @@ public class SelectDateStep extends Step<String> {
                                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                     dateTextView.setVisibility(View.VISIBLE);
                                     dateTextView.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                    date=dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                                     markAsCompletedOrUncompleted(true);
                                 }
                             }, year, month, day);
@@ -80,6 +82,10 @@ public class SelectDateStep extends Step<String> {
 
 
         return view;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     @Override

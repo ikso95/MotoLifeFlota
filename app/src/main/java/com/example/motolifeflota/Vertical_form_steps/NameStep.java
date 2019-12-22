@@ -13,29 +13,28 @@ import ernestoyaquello.com.verticalstepperform.Step;
 
 public class NameStep extends Step<String> {
 
-    private EditText userNameTextView;
+    private EditText userNameEditText;
     private LayoutInflater inflater;
     private View view;
-
+    private String userName;
 
     public NameStep(String stepTitle) {
         super(stepTitle);
     }
 
 
-
     @Override
     protected View createStepContentLayout() {
         // Here we generate the view that will be used by the library as the content of the step.
         // In this case we do it programmatically, but we could also do it by inflating an XML layout.
-        inflater = (LayoutInflater)getContext().getSystemService
+        inflater = (LayoutInflater) getContext().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.step_name,null);
+        view = inflater.inflate(R.layout.step_name, null);
 
-        userNameTextView = view.findViewById(R.id.name_EditText);
+        userNameEditText = view.findViewById(R.id.name_EditText);
 
 
-        userNameTextView.addTextChangedListener(new TextWatcher() {
+        userNameEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -52,12 +51,17 @@ public class NameStep extends Step<String> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                userName= userNameEditText.getText().toString().trim();
             }
         });
 
-        userNameTextView.requestFocus();
+        userNameEditText.requestFocus();
         return view;
+    }
+
+
+    public String getUserName() {
+        return userName;
     }
 
     @Override
@@ -73,7 +77,7 @@ public class NameStep extends Step<String> {
     @Override
     public String getStepData() {
         // We get the step's data from the value that the user has typed in the EditText view.
-        Editable userName = userNameTextView.getText();
+        Editable userName = userNameEditText.getText();
         return userName != null ? userName.toString() : "";
     }
 
@@ -109,6 +113,6 @@ public class NameStep extends Step<String> {
     @Override
     public void restoreStepData(String stepData) {
         // To restore the step after a configuration change, we restore the text of its EditText view.
-        userNameTextView.setText(stepData);
+        userNameEditText.setText(stepData);
     }
 }

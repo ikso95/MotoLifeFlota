@@ -4,28 +4,40 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.motolifeflota.MainActivity;
+import com.example.motolifeflota.PhotosRecyclerView.SliderAdapter;
 import com.example.motolifeflota.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import ernestoyaquello.com.verticalstepperform.Step;
+
+import static android.app.Activity.RESULT_OK;
 
 public class PhotoStep extends Step<String> {
 
@@ -40,10 +52,23 @@ public class PhotoStep extends Step<String> {
     static final int CAMERA_PERMISSION_CODE = 2;
 
     private File imageFile;
+    private Uri imageUri;
+
+    private Activity myParentActivity;
+
+    private String registrationNumber;
+
+    private String currentPhotoPath = null;
+
+    private RegistrationNumberStep registrationNumberStep;
 
 
-    public PhotoStep(String stepTitle) {
+
+
+    public PhotoStep(String stepTitle, Activity activity, RegistrationNumberStep registrationNumberStep) {
         super(stepTitle);
+        this.myParentActivity=activity;     //potrzebne zeby wywoływać intenty z poziomy mainActivity
+        this.registrationNumberStep = registrationNumberStep;
     }
 
 
@@ -60,8 +85,6 @@ public class PhotoStep extends Step<String> {
 
 
 
-
-
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +97,7 @@ public class PhotoStep extends Step<String> {
                     // Permission has already been granted
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);      //wywołanie uruchomienia aparatu
 
+
                     if (cameraIntent.resolveActivity(getContext().getPackageManager()) != null) {
                         imageFile = null;
                         try {
@@ -83,9 +107,9 @@ public class PhotoStep extends Step<String> {
                         }
 
                         if (imageFile != null) {                                            //jezeli plik istnieje podajemy Uri-adres pod ktorym ma byc zapisany obraz, miejsce na dysku
-                            imageUri = FileProvider.getUriForFile(MainActivity.this, "com.example.motolifeflota.fileprovider", imageFile);
+                            imageUri = FileProvider.getUriForFile(getContext(), "com.example.motolifeflota.fileprovider", imageFile);
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);   //dodajemy obraz do intent  - przez to ze dodajemy uri mamy adres zdjecia, nie otrzymamy w extras thumbnail obrazu (miniaturki)
-                            startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);    //uruchamiamy intnet
+                            myParentActivity.startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);    //uruchamiamy intnet
                         }
 
 
@@ -96,6 +120,7 @@ public class PhotoStep extends Step<String> {
         });
 
 
+
         loadPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,24 +129,31 @@ public class PhotoStep extends Step<String> {
             }
         });
 
-
-
         return view;
     }
 
 
+
+
     private File createImageFile() throws IOException {
         // Create an image file name
-        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "MotoLifeFlota_usterka"+String.valueOf(nrOfTakenPhotos);
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        String timeStamp = new SimpleDateFormat("_yyyyMMdd_HHmmss").format(new Date());
 
-        File image = new File(storageDir, imageFileName + ".jpg");
+        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        registrationNumber=registrationNumberStep.getRegistrationNumber();
+
+        File image = new File(storageDir,registrationNumber + timeStamp + ".jpg");
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
 
 
     @Override

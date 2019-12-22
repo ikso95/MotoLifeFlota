@@ -17,6 +17,7 @@ public class PhoneNumberStep extends Step<String> {
     public EditText phoneNumberEditText;
     private LayoutInflater inflater;
     private View view;
+    private String phoneNumber;
 
 
     public PhoneNumberStep(String stepTitle) {
@@ -55,12 +56,17 @@ public class PhoneNumberStep extends Step<String> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                phoneNumber=phoneNumberEditText.getText().toString().trim();
             }
         });
 
 
         return view;
+    }
+
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     @Override

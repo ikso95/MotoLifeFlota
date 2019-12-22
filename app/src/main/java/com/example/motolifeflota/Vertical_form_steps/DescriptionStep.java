@@ -18,6 +18,7 @@ public class DescriptionStep extends Step<String> {
     private EditText descriptionEditText;
     private LayoutInflater inflater;
     private View view;
+    private String description;
 
 
     public DescriptionStep(String stepTitle) {
@@ -56,11 +57,16 @@ public class DescriptionStep extends Step<String> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                description=descriptionEditText.getText().toString();
             }
         });
         descriptionEditText.requestFocus();
         return view;
+    }
+
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
