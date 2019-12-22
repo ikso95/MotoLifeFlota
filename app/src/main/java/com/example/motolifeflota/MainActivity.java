@@ -76,9 +76,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int CAMERA_PERMISSION_CODE = 2;
     static final int REQUEST_GET_SINGLE_FILE = 3;
-    static final int STORAGE_PERMISSION_CODE = 4;
 
     private String currentPhotoPath = null;
 
@@ -122,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
         clearDirectory();
 
         verticalStepperForm = findViewById(R.id.stepper_form);
-
+        storageFilesPathsList = new ArrayList<>();
         pickiT = new PickiT(this, this);
 
         nameStep=new NameStep("Imię i nazwisko");
@@ -148,11 +146,6 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
         verticalStepperForm.completeForm();
 
 
-    }
-
-    public void takePhoto()
-    {
-        Toast.makeText(MainActivity.this, "Take photo from main",Toast.LENGTH_LONG).show();
     }
 
 
@@ -267,8 +260,6 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                                 email_body,                                                    //body message
                                 "lisuoskar@gmail.com",                                 //sender
                                 "oskail@wp.pl",                                      //recipent
-                                "/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/MotoLifeFlota_usterka",//.jpg",  //sciezka do zrobionych zdjec
-                                nrOfTakenPhotos,                                                //nrOfTakenPhotos liczone od 0!
                                 storageFilesPathsList);
 
                         mDialog.dismiss();

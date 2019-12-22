@@ -50,6 +50,8 @@ public class PhotoStep extends Step<String> {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int CAMERA_PERMISSION_CODE = 2;
+    static final int REQUEST_GET_SINGLE_FILE = 3;
+    static final int STORAGE_PERMISSION_CODE = 4;
 
     private File imageFile;
     private Uri imageUri;
@@ -124,7 +126,17 @@ public class PhotoStep extends Step<String> {
         loadPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    //Permission not granted, request permission
+                    ActivityCompat.requestPermissions((Activity) getContext(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
 
+                } else {
+                    //Permission granted
+                    Intent intent = new Intent();
+                    intent.setType("image/* video/*");                  //to choose all files image/* or image/jpg or video/* or video/mp4
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    myParentActivity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GET_SINGLE_FILE);
+                }
 
             }
         });

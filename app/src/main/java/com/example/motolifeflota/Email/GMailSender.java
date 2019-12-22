@@ -2,6 +2,7 @@ package com.example.motolifeflota.Email;
 
 import android.util.Log;
 
+import java.io.File;
 import java.security.Security;
 import java.util.List;
 import java.util.Properties;
@@ -72,7 +73,7 @@ public class GMailSender extends javax.mail.Authenticator {
         Transport.send(message);
     }
 
-    public synchronized void sendMail(String subject, String body, String sender, String recipients, String attachment_path, int number_of_attachments, List<String> storageFilesPathsList) throws Exception {
+    public synchronized void sendMail(String subject, String body, String sender, String recipients, List<String> storageFilesPathsList) throws Exception {
 
         this.storageFilesPathsList=storageFilesPathsList;
 
@@ -91,14 +92,22 @@ public class GMailSender extends javax.mail.Authenticator {
         multipart.addBodyPart(messageBodyPartBody);
 
 
-        for(int i=0;i<number_of_attachments;i++)            //dodwanie zrobionych zdjec
+
+        File dir = new File("/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures");
+        if (dir.isDirectory())
         {
-            BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
-            DataSource source = new FileDataSource(attachment_path+String.valueOf(i)+".jpg");
-            messageBodyPartAttachment.setDataHandler(new DataHandler(source));
-            messageBodyPartAttachment.setFileName((attachment_path+String.valueOf(i)+".jpg").substring((attachment_path+String.valueOf(i)+".jpg").lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
-            multipart.addBodyPart(messageBodyPartAttachment);
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                new File(dir, children[i]);
+                BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
+                DataSource source = new FileDataSource(dir+"/"+children[i]);
+                messageBodyPartAttachment.setDataHandler(new DataHandler(source));
+                messageBodyPartAttachment.setFileName((dir+"/"+children[i]).substring((dir+"/"+children[i]).lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
+                multipart.addBodyPart(messageBodyPartAttachment);
+            }
         }
+
 
         for(int i=0; i<storageFilesPathsList.size();i++)       //dodawanie wczytanych plikow
         {
