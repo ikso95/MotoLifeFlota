@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -34,6 +35,7 @@ public class NameStep extends Step<String> {
         userNameEditText = view.findViewById(R.id.name_EditText);
 
 
+
         userNameEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -55,7 +57,7 @@ public class NameStep extends Step<String> {
             }
         });
 
-        userNameEditText.requestFocus();
+
         return view;
     }
 
@@ -98,6 +100,20 @@ public class NameStep extends Step<String> {
     @Override
     protected void onStepClosed(boolean animated) {
         // This will be called automatically whenever the step gets closed.
+
+        // simulate a click, which consists of ACTION_DOWN and ACTION_UP
+        MotionEvent eventDown = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0);
+        userNameEditText.dispatchTouchEvent(eventDown);
+        eventDown.recycle();
+
+        MotionEvent eventUp = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0);
+        userNameEditText.dispatchTouchEvent(eventUp);
+        eventUp.recycle();
+
+        // To be on the safe side, also use another method
+        userNameEditText.setFocusableInTouchMode(true);
+        userNameEditText.requestFocus();
+        userNameEditText.requestFocusFromTouch();
     }
 
     @Override

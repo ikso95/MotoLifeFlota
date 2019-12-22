@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -96,6 +97,18 @@ public class RegistrationNumberStep extends Step<String> {
     @Override
     protected void onStepOpened(boolean animated) {
         // This will be called automatically whenever the step gets opened.
+        MotionEvent eventDown = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0);
+        registrationNumberEditText.dispatchTouchEvent(eventDown);
+        eventDown.recycle();
+
+        MotionEvent eventUp = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0);
+        registrationNumberEditText.dispatchTouchEvent(eventUp);
+        eventUp.recycle();
+
+        // To be on the safe side, also use another method
+        registrationNumberEditText.setFocusableInTouchMode(true);
+        registrationNumberEditText.requestFocus();
+        registrationNumberEditText.requestFocusFromTouch();
     }
 
     @Override

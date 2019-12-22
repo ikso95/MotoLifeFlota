@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -37,7 +38,7 @@ public class PhoneNumberStep extends Step<String> {
         view = inflater.inflate(R.layout.step_phone_number,null);
 
         phoneNumberEditText = view.findViewById(R.id.phone_number_EditText);
-        phoneNumberEditText.requestFocus();
+
 
         phoneNumberEditText.addTextChangedListener(new TextWatcher() {
 
@@ -100,6 +101,20 @@ public class PhoneNumberStep extends Step<String> {
     @Override
     protected void onStepOpened(boolean animated) {
         // This will be called automatically whenever the step gets opened.
+
+
+        MotionEvent eventDown = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0);
+        phoneNumberEditText.dispatchTouchEvent(eventDown);
+        eventDown.recycle();
+
+        MotionEvent eventUp = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0);
+        phoneNumberEditText.dispatchTouchEvent(eventUp);
+        eventUp.recycle();
+
+        // To be on the safe side, also use another method
+        phoneNumberEditText.setFocusableInTouchMode(true);
+        phoneNumberEditText.requestFocus();
+        phoneNumberEditText.requestFocusFromTouch();
     }
 
     @Override

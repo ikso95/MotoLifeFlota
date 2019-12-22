@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -109,12 +110,13 @@ public class SelectTimeStep extends Step<String> {
         // However, we return "(Empty)" if the text is empty to avoid not having any text to display.
         // This string will be displayed in the subtitle of the step whenever the step gets closed.
         String userName = getStepData();
-        return !userName.isEmpty() ? userName : "(Empty)";
+        return !userName.isEmpty() ? userName : "";
     }
 
     @Override
     protected void onStepOpened(boolean animated) {
         // This will be called automatically whenever the step gets opened.
+
     }
 
     @Override

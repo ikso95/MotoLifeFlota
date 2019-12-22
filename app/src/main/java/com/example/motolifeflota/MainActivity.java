@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                 .lastStepCancelButtonText("Anuluj")
                 .init();
 
-        verticalStepperForm.completeForm();
+
 
 
     }
@@ -158,8 +158,6 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
 
         //Jeżeli zrobiono zdjęcie
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
-            Toast.makeText(MainActivity.this,"Main activity",Toast.LENGTH_LONG).show();
 
             try {
                 isAttachment = true;
@@ -350,5 +348,10 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
     @Override
     public void onCancelledForm() {
 
+
     }
+
+
+
+
 }

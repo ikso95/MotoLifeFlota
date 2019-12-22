@@ -6,6 +6,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -100,6 +101,19 @@ public class DescriptionStep extends Step<String> {
     @Override
     protected void onStepOpened(boolean animated) {
         // This will be called automatically whenever the step gets opened.
+
+        MotionEvent eventDown = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0);
+        descriptionEditText.dispatchTouchEvent(eventDown);
+        eventDown.recycle();
+
+        MotionEvent eventUp = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0);
+        descriptionEditText.dispatchTouchEvent(eventUp);
+        eventUp.recycle();
+
+        // To be on the safe side, also use another method
+        descriptionEditText.setFocusableInTouchMode(true);
+        descriptionEditText.requestFocus();
+        descriptionEditText.requestFocusFromTouch();
     }
 
     @Override
