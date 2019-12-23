@@ -114,7 +114,7 @@ public class GMailSender extends javax.mail.Authenticator {
             BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
             DataSource source = new FileDataSource(storageFilesPathsList.get(i));
             messageBodyPartAttachment.setDataHandler(new DataHandler(source));
-            messageBodyPartAttachment.setFileName((storageFilesPathsList.get(i)).substring((storageFilesPathsList.get(i)).lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
+            messageBodyPartAttachment.setFileName( (subject.substring(subject.lastIndexOf(":")+1)) + "_" + (storageFilesPathsList.get(i)).substring((storageFilesPathsList.get(i)).lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki i dodanie nr rejesteacyjnego
             multipart.addBodyPart(messageBodyPartAttachment);
         }
 

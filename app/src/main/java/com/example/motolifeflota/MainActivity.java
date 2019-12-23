@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                 Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
 
 
+
                 //imageView.setVisibility(View.VISIBLE);
                 //imageView.setImageBitmap(rotatedBitmap);
 
@@ -254,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                     GMailSender sender = new GMailSender("rozproszonebazy@gmail.com", "MotoLifeFlota");
 
                     if (isAttachment) {
-                        sender.sendMail(getBaseContext().getString(R.string.Email_title) + registrationNumberStep.getRegistrationNumber(),               //title
+                        sender.sendMail(getBaseContext().getString(R.string.Email_title) + registrationNumberStep.getRegistrationNumber(),               //title - subject
                                 email_body,                                                    //body message
                                 "lisuoskar@gmail.com",                                 //sender
                                 "oskail@wp.pl",                                      //recipent
@@ -348,6 +349,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
     @Override
     public void onCancelledForm() {
 
+        clearDirectory();
 
     }
 

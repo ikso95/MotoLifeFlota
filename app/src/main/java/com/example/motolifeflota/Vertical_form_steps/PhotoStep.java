@@ -1,6 +1,7 @@
 package com.example.motolifeflota.Vertical_form_steps;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -47,6 +49,7 @@ public class PhotoStep extends Step<String> {
     private Button loadPhotoButton;
     private LayoutInflater inflater;
     private View view;
+
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int CAMERA_PERMISSION_CODE = 2;
@@ -102,11 +105,9 @@ public class PhotoStep extends Step<String> {
 
                     if (cameraIntent.resolveActivity(getContext().getPackageManager()) != null) {
                         imageFile = null;
-                        try {
-                            imageFile = createImageFile();                                  //stworzenie pliku do którego zostanie zapisane zdjecie - bitmapa
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+
+                        imageFile = createImageFile();                                  //stworzenie pliku do którego zostanie zapisane zdjecie - bitmapa
+
 
                         if (imageFile != null) {                                            //jezeli plik istnieje podajemy Uri-adres pod ktorym ma byc zapisany obraz, miejsce na dysku
                             imageUri = FileProvider.getUriForFile(getContext(), "com.example.motolifeflota.fileprovider", imageFile);
@@ -146,9 +147,9 @@ public class PhotoStep extends Step<String> {
 
 
 
-
-    private File createImageFile() throws IOException {
+    private File createImageFile() {
         // Create an image file name
+        @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("_yyyyMMdd_HHmmss").format(new Date());
 
         File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -183,8 +184,7 @@ public class PhotoStep extends Step<String> {
     @Override
     public String getStepData() {
         // We get the step's data from the value that the user has typed in the EditText view.
-        String date = "";
-        return date ;
+        return "" ;
     }
 
     @Override
