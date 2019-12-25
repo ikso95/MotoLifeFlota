@@ -17,7 +17,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.av.smoothviewpager.Smoolider.SmoothViewpager;
 import com.example.motolifeflota.R;
 import com.example.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
 
