@@ -92,31 +92,30 @@ public class GMailSender extends javax.mail.Authenticator {
         multipart.addBodyPart(messageBodyPartBody);
 
 
-
-        File dir = new File("/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures");
-        if (dir.isDirectory())
-        {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
-                new File(dir, children[i]);
-                BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
-                DataSource source = new FileDataSource(dir+"/"+children[i]);
-                messageBodyPartAttachment.setDataHandler(new DataHandler(source));
-                messageBodyPartAttachment.setFileName((dir+"/"+children[i]).substring((dir+"/"+children[i]).lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki
-                multipart.addBodyPart(messageBodyPartAttachment);
-            }
-        }
-
-
         for(int i=0; i<storageFilesPathsList.size();i++)       //dodawanie wczytanych plikow
         {
             BodyPart messageBodyPartAttachment = new MimeBodyPart();                                                //druga czesc - zalaczniki - zdjecie
             DataSource source = new FileDataSource(storageFilesPathsList.get(i));
             messageBodyPartAttachment.setDataHandler(new DataHandler(source));
-            messageBodyPartAttachment.setFileName( (subject.substring(subject.lastIndexOf(":")+1)) + "_" + (storageFilesPathsList.get(i)).substring((storageFilesPathsList.get(i)).lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki i dodanie nr rejesteacyjnego
+
+            if(storageFilesPathsList.get(i).contains(subject.substring(subject.lastIndexOf(":")+1)))    //jeżeli nazwa pliku zawiea już numer rejestracyjny
+            {
+                messageBodyPartAttachment.setFileName( (storageFilesPathsList.get(i)).substring((storageFilesPathsList.get(i)).lastIndexOf("/")+1));
+            }
+            else
+            {
+                messageBodyPartAttachment.setFileName( (subject.substring(subject.lastIndexOf(":")+1)) + "_" + (storageFilesPathsList.get(i)).substring((storageFilesPathsList.get(i)).lastIndexOf("/")+1));         //zmiana nazwy zalacznika zeby nie przekazywac sciezki i dodanie nr rejesteacyjnego
+            }
+
             multipart.addBodyPart(messageBodyPartAttachment);
         }
+
+
+        /*Do wykorzystania jezeli chcemy miec mozliwosc wysylania maili do wielu osob oddzielonych przecinkiem
+        if (recipients.indexOf(',') > 0)
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
+        else
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));*/
 
 
         // Send the complete message parts

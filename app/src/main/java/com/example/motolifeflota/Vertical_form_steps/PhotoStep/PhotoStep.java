@@ -1,45 +1,31 @@
-package com.example.motolifeflota.Vertical_form_steps;
+package com.example.motolifeflota.Vertical_form_steps.PhotoStep;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.TimePicker;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.example.motolifeflota.MainActivity;
-import com.example.motolifeflota.PhotosRecyclerView.SliderAdapter;
+import com.av.smoothviewpager.Smoolider.SmoothViewpager;
 import com.example.motolifeflota.R;
+import com.example.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import ernestoyaquello.com.verticalstepperform.Step;
-
-import static android.app.Activity.RESULT_OK;
 
 public class PhotoStep extends Step<String> {
 
@@ -65,7 +51,11 @@ public class PhotoStep extends Step<String> {
 
     private String currentPhotoPath = null;
 
+    private String imageName;
+
     private RegistrationNumberStep registrationNumberStep;
+
+    private SmoothViewpager photoSlider;
 
 
 
@@ -87,6 +77,7 @@ public class PhotoStep extends Step<String> {
 
         takePhotoButton = view.findViewById(R.id.take_photo_button);
         loadPhotoButton = view.findViewById(R.id.load_photo_button);
+        photoSlider =view.findViewById(R.id.photoSlider);
 
 
 
@@ -152,11 +143,14 @@ public class PhotoStep extends Step<String> {
         @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("_yyyyMMdd_HHmmss").format(new Date());
 
+
         File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         registrationNumber=registrationNumberStep.getRegistrationNumber();
 
-        File image = new File(storageDir,registrationNumber + timeStamp + ".jpg");
+        imageName = registrationNumber + timeStamp + ".jpg";
+
+        File image = new File(storageDir,imageName);
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
@@ -167,7 +161,9 @@ public class PhotoStep extends Step<String> {
         return imageUri;
     }
 
-
+    public String getImageName() {
+        return imageName;
+    }
 
     @Override
     protected IsDataValid isStepDataValid(String stepData) {
