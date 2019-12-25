@@ -3,6 +3,7 @@ package com.example.motolifeflota;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -194,10 +195,6 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
 
     private void sendEmail(final String email_body) {
 
-        for (int i = 0; i < storageFilesPathsList.size(); i++) {
-            Log.d("pathsImages", storageFilesPathsList.get(i) + "     sf");
-        }
-
 
         new Thread(new Runnable() {
 
@@ -213,14 +210,49 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                             storageFilesPathsList);
 
                     mDialog.dismiss();
-                    Intent reloadActivity = new Intent(MainActivity.this, MainActivity.class);
-                    startActivity(reloadActivity);
-                    finish();
 
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("Gratulacje")
+                                    .setMessage("Zgłoszenie zostało wysłane")
+                                    .setIcon(R.drawable.ic_check)
+                                    .setCancelable(false)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent reloadActivity = new Intent(MainActivity.this, MainActivity.class);
+                                            startActivity(reloadActivity);
+                                            finish();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    });
 
 
                 } catch (Exception e) {
                     Log.e("SendMail", e.getMessage(), e);
+
+                    mDialog.dismiss();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("Przepraszamy")
+                                    .setMessage("Zgłoszenie nie zostało wysłane, spróbuj ponownie")
+                                    .setIcon(R.drawable.ic_progress_cancle)
+                                    .setCancelable(false)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Continue with delete operation
+                                        }
+                                    })
+
+                                    .show();
+                        }
+                    });
 
                 }
             }
@@ -281,6 +313,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
         mDialog.show();
 
         sendEmail(makeEmailBody());
+
 
     }
 

@@ -12,11 +12,14 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.motolifeflota.PhotosRecyclerView.SliderAdapter;
 import com.example.motolifeflota.R;
 import com.example.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
 
@@ -58,7 +61,6 @@ public class PhotoStep extends Step<String> {
 
 
 
-
     public PhotoStep(String stepTitle, Activity activity, RegistrationNumberStep registrationNumberStep) {
         super(stepTitle);
         this.myParentActivity=activity;     //potrzebne zeby wywoływać intenty z poziomy mainActivity
@@ -76,7 +78,6 @@ public class PhotoStep extends Step<String> {
 
         takePhotoButton = view.findViewById(R.id.take_photo_button);
         loadPhotoButton = view.findViewById(R.id.load_photo_button);
-
 
 
 
@@ -133,6 +134,7 @@ public class PhotoStep extends Step<String> {
         });
 
         return view;
+
     }
 
 
