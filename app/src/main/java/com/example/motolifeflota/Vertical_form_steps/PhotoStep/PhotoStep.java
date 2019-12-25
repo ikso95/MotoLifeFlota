@@ -55,7 +55,7 @@ public class PhotoStep extends Step<String> {
 
     private RegistrationNumberStep registrationNumberStep;
 
-    private SmoothViewpager photoSlider;
+
 
 
 
@@ -77,7 +77,7 @@ public class PhotoStep extends Step<String> {
 
         takePhotoButton = view.findViewById(R.id.take_photo_button);
         loadPhotoButton = view.findViewById(R.id.load_photo_button);
-        photoSlider =view.findViewById(R.id.photoSlider);
+
 
 
 
