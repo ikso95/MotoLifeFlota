@@ -3,12 +3,15 @@ package com.example.motolifeflota;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +34,8 @@ import com.example.motolifeflota.Vertical_form_steps.SelectDateStep;
 import com.example.motolifeflota.Vertical_form_steps.SelectTimeStep;
 import com.hbisoft.pickit.PickiT;
 import com.hbisoft.pickit.PickiTCallbacks;
+import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
 
     private final static String myPhoneNumberUri = "tel:+48664135806";
 
-    public ProgressDialog mDialog;
+    private MaterialDialog mDialog;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_GET_SINGLE_FILE = 3;
@@ -94,10 +99,9 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
         verticalStepperForm.setup(this, nameStep, phoneNumberStep,
                 registrationNumberStep, descriptionStep, selectDateStep, selectTimeStep, photoStep)
                 .stepNextButtonText("Dalej")
+                .displayCancelButtonInLastStep(true)
                 .lastStepNextButtonText("Wyślij")
                 .confirmationStepTitle("Wyślij zgłoszenie")
-                .displayCancelButtonInLastStep(true)
-                //.lastStepCancelButtonColors(Color.red())
                 .lastStepCancelButtonText("Anuluj")
                 .init();
 
@@ -198,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
 
         new Thread(new Runnable() {
 
+            @SuppressLint("RestrictedApi")
             @Override
             public void run() {
                 try {
@@ -214,19 +219,25 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialog.Builder(MainActivity.this)
-                                    .setTitle("Gratulacje")
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mDialog.dismiss();
+                                    Intent reloadActivity = new Intent(MainActivity.this, MainActivity.class);
+                                    startActivity(reloadActivity);
+                                    finish();
+                                }
+                            }, 1500);
+                            mDialog = new MaterialDialog.Builder(MainActivity.this)
+                                    .setTitle("Gratulacje!")
+
                                     .setMessage("Zgłoszenie zostało wysłane")
-                                    .setIcon(R.drawable.ic_check)
                                     .setCancelable(false)
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent reloadActivity = new Intent(MainActivity.this, MainActivity.class);
-                                            startActivity(reloadActivity);
-                                            finish();
-                                        }
-                                    })
-                                    .show();
+                                    .setAnimation(R.raw.check_mark_success_animation)
+                                    .build();
+                            mDialog.show();
                         }
                     });
 
@@ -239,18 +250,30 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialog.Builder(MainActivity.this)
-                                    .setTitle("Przepraszamy")
-                                    .setMessage("Zgłoszenie nie zostało wysłane, spróbuj ponownie")
-                                    .setIcon(R.drawable.ic_progress_cancle)
+
+                            mDialog = new MaterialDialog.Builder(MainActivity.this)
+                                    .setTitle("Błąd!")
+                                    .setMessage("Wystąpił błąd podczas wysyłania, sprawdź połączenie z internetem i spróbuj ponownie")
                                     .setCancelable(false)
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // Continue with delete operation
+                                    .setAnimation(R.raw.unapproved_cross)
+                                    .setNegativeButton("Anuluj", new MaterialDialog.OnClickListener() {
+                                        @Override
+                                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                                            dialogInterface.dismiss();
+                                            Intent reloadActivity = new Intent(MainActivity.this, MainActivity.class);
+                                            startActivity(reloadActivity);
+                                            finish();
                                         }
                                     })
-
-                                    .show();
+                                    .setPositiveButton("Wróć", new MaterialDialog.OnClickListener() {
+                                        @Override
+                                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                                            dialogInterface.dismiss();
+                                            verticalStepperForm.cancelFormCompletionOrCancellationAttempt();
+                                        }
+                                    })
+                                    .build();
+                            mDialog.show();
                         }
                     });
 
@@ -305,11 +328,20 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
     }
 
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onCompletedForm() {
 
-        mDialog = new ProgressDialog(MainActivity.this);
+       /* mDialog = new ProgressDialog(MainActivity.this);
         mDialog.setMessage("Proszę czekać ...");
+        mDialog.show();*/
+
+        mDialog = new MaterialDialog.Builder(MainActivity.this)
+                .setTitle("Wysyłanie!")
+                .setMessage("Proszę czekać, w zależności od ilości zdjęć, może to zająć chwilę")
+                .setCancelable(false)
+                .setAnimation(R.raw.mail_send_as_paper_plane)
+                .build();
         mDialog.show();
 
         sendEmail(makeEmailBody());

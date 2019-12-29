@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.appcompat.widget.AppCompatImageButton;
+
 import com.example.motolifeflota.R;
 
 import java.util.Calendar;
@@ -21,7 +23,7 @@ public class SelectTimeStep extends Step<String> {
 
 
     private TextView timeTextView;
-    private Button pickTimeButton;
+    private AppCompatImageButton pickTimeButton;
     private LayoutInflater inflater;
     private View view;
     private String selMinute;

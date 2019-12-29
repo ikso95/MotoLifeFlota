@@ -15,8 +15,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            app:form_circle_background_color="@color/colorPrimary"
-            app:form_next_button_background_color="@color/colorPrimary"
-            app:form_next_button_pressed_background_color="@color/colorPrimaryDark"/>
+            app:form_circle_background_color="@color/colorLightGreen"
+            app:form_next_button_background_color="@color/colorLightGreen"
+            app:form_next_button_pressed_background_color="@color/colorLightGreen"
+            app:form_cancel_button_background_color="@color/colorRedMotoLife"
+            app:form_display_bottom_navigation="false"
+
+            />
 
 </RelativeLayout>

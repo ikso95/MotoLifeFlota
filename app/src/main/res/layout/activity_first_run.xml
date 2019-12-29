@@ -44,24 +44,26 @@
         android:layout_below="@+id/app_password"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_check"
-        app:cb_color="#99CC00"
+        app:cb_color="@color/colorLightGreen"
         app:cb_pressedRingWidth="8dip" />
 
     <com.example.myloadingbutton.MyLoadingButton
+        android:layout_marginHorizontal="20dp"
         android:id="@+id/my_loading_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/checkPassword_Button"
         android:layout_centerHorizontal="true"
+
         app:mlb_animationDuration="300"
         app:mlb_backgroundColor="@color/view_color_gray"
-        app:mlb_label="Login Button"
-        app:mlb_labelColor="@color/colorAccent"
-        app:mlb_labelSize="5sp"
+        app:mlb_label="Zatwierdź"
+        app:mlb_labelColor="@color/colorBlack"
+        app:mlb_labelSize="7sp"
         app:mlb_loaderColor="@color/colorPrimaryDark"
-        app:mlb_setDoneIcon="@drawable/ic_progress_done"
-        app:mlb_setErrorIcon="@drawable/ic_progress_done"
-        app:mlb_setNormalAfterError="false" />
+        app:mlb_setDoneIcon="@drawable/ic_check"
+        app:mlb_setErrorIcon="@drawable/ic_clear"
+        app:mlb_setNormalAfterError="true" />
 
 
 </RelativeLayout>

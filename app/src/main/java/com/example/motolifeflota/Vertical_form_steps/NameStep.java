@@ -72,7 +72,6 @@ public class NameStep extends Step<String> {
         // three characters. In case it is not, we will display an error message for feedback.
         // In an optional step, you should implement this method to always return a valid value.
         boolean isNameValid = stepData.length() > 0;
-
         return new IsDataValid(isNameValid);
     }
 

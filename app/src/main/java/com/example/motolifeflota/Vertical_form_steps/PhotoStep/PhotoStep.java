@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -33,8 +34,8 @@ public class PhotoStep extends Step<String> {
 
 
 
-    private Button takePhotoButton;
-    private Button loadPhotoButton;
+    private AppCompatImageButton takePhotoButton;
+    private AppCompatImageButton loadPhotoButton;
     private LayoutInflater inflater;
     private View view;
 

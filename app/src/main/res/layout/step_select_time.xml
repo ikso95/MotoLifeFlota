@@ -6,7 +6,7 @@
     >
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/pick_time_button"
         android:layout_width="50dp"
         android:layout_height="50dp"

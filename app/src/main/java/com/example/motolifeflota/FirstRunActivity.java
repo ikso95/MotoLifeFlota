@@ -2,6 +2,7 @@ package com.example.motolifeflota;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,8 +10,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.myloadingbutton.MyLoadingButton;
+import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import at.markushi.ui.CircleButton;
 
@@ -48,11 +53,11 @@ public class FirstRunActivity extends AppCompatActivity {
 
 
         checkPassword.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
                 if(password.getText().toString().equals(appPassword))
                 {
-
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("Password", true); // Storing boolean - true/false
                     editor.commit(); // commit changes
@@ -83,15 +88,12 @@ public class FirstRunActivity extends AppCompatActivity {
                                     editor.putBoolean("Password", true); // Storing boolean - true/false
                                     editor.commit(); // commit changes
 
-
                                     Intent goToMainActivityIntent = new Intent(FirstRunActivity.this, MainActivity.class);
                                     startActivity(goToMainActivityIntent);
                                     finish();
                                 }
                             }, 1000);
                             myLoadingButton.showDoneButton();
-
-
                         }
                         else
                         {
@@ -124,6 +126,6 @@ public class FirstRunActivity extends AppCompatActivity {
             return false;
         }
         else
-        return true;
+        return false;   //ZMIENIC NA TRUE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 }

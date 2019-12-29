@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatImageButton;
+
 import com.example.motolifeflota.MainActivity;
 import com.example.motolifeflota.R;
 
@@ -28,7 +30,7 @@ public class SelectDateStep extends Step<String> {
 
     private DatePickerDialog picker;
     private TextView dateTextView;
-    private Button pickDateButton;
+    private AppCompatImageButton pickDateButton;
     private LayoutInflater inflater;
     private View view;
     private String date;
