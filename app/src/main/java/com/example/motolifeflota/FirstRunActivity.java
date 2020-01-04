@@ -25,7 +25,7 @@ public class FirstRunActivity extends AppCompatActivity {
 
 
 
-    private final static String appPassword="Haslo";
+    private final static String appPassword="Mlmb1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

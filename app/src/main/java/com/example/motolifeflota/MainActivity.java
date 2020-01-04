@@ -18,6 +18,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.motolifeflota.Email.GMailSender;
@@ -45,18 +47,19 @@ import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener;
 public class MainActivity extends AppCompatActivity implements PickiTCallbacks, StepperFormListener {
 
 
-    private final static String myPhoneNumberUri = "tel:+48664135806";
+    private final static String phoneNumberUri = "tel:+48664135806";
 
     private MaterialDialog mDialog;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_GET_SINGLE_FILE = 3;
 
-    private Uri imageUri;
+
     private boolean isAttachment = false;
     private List<String> storageFilesPathsList;
     private boolean doubleBackToExitPressedOnce = false;
     private PickiT pickiT;
+    private Button callButton;
 
     private NameStep nameStep;
     private PhoneNumberStep phoneNumberStep;
@@ -96,6 +99,17 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                 .confirmationStepTitle("Wyślij zgłoszenie")
                 .lastStepCancelButtonText("Anuluj")
                 .init();
+
+
+        callButton = findViewById(R.id.zadzwon_button);
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent dialNumber = new Intent(Intent.ACTION_DIAL, Uri.parse(phoneNumberUri));
+                startActivity(dialNumber);
+
+            }
+        });
 
 
     }
