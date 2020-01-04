@@ -67,11 +67,12 @@ public class SelectTimeStep extends Step<String> {
                         } else
                             selMinute = String.valueOf(selectedMinute);
                         timeTextView.setText(selectedHour + ":" + selMinute);
+                        timeTextView.setVisibility(View.VISIBLE);
                         time=selectedHour + ":" + selMinute;
                         selMinute = "";
                     }
                 }, hour, minute, true);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
+                mTimePicker.setTitle("Godzina usterki");
                 mTimePicker.show();
                 markAsCompletedOrUncompleted(true);
 

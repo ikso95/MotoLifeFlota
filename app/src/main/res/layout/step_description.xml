@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Opis usterki"
-        android:minLines="5"
+        android:minLines="3"
         android:inputType="textCapSentences"
         android:gravity="left"
         android:singleLine="false"

@@ -37,22 +37,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <at.markushi.ui.CircleButton
-        android:id="@+id/checkPassword_Button"
-        android:layout_width="64dip"
-        android:layout_height="64dip"
-        android:layout_below="@+id/app_password"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_check"
-        app:cb_color="@color/colorLightGreen"
-        app:cb_pressedRingWidth="8dip" />
-
     <com.example.myloadingbutton.MyLoadingButton
         android:layout_marginHorizontal="20dp"
         android:id="@+id/my_loading_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkPassword_Button"
+        android:layout_below="@+id/app_password"
         android:layout_centerHorizontal="true"
 
         app:mlb_animationDuration="300"

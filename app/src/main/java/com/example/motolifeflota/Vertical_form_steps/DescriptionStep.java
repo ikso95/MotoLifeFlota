@@ -38,7 +38,7 @@ public class DescriptionStep extends Step<String> {
 
         descriptionEditText = view.findViewById(R.id.description_EditText);
         descriptionEditText.setSingleLine(false);
-        descriptionEditText.setMinLines(5);
+        descriptionEditText.setMinLines(3);
 
 
         descriptionEditText.addTextChangedListener(new TextWatcher() {

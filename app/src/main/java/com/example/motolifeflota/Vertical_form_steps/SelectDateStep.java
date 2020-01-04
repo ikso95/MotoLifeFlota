@@ -71,17 +71,13 @@ public class SelectDateStep extends Step<String> {
                                     markAsCompletedOrUncompleted(true);
                                 }
                             }, year, month, day);
+                    picker.setTitle("Data usterki");
                     picker.show();
                     dateTextView.setError(null);
 
 
             }
         });
-
-
-
-        //content.addView(pickDateButton);
-        //content.addView(dateTextView);
 
 
         return view;

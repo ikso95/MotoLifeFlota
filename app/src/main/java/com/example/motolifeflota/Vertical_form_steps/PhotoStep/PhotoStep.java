@@ -9,29 +9,35 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.motolifeflota.MainActivity;
 import com.example.motolifeflota.PhotosRecyclerView.SliderAdapter;
 import com.example.motolifeflota.R;
 import com.example.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 
 public class PhotoStep extends Step<String> {
-
 
 
     private AppCompatImageButton takePhotoButton;
@@ -58,28 +64,39 @@ public class PhotoStep extends Step<String> {
 
     private RegistrationNumberStep registrationNumberStep;
 
+    //---------------------------------------
+    public RecyclerView recyclerView;
 
+    private GalleryAdapter galleryAdapter;
 
+    private List<String> storageFilesPathsList = new ArrayList<>();
 
+    public void setStorageFilesPathsList(List<String> storageFilesPathsList) {
+        this.storageFilesPathsList = storageFilesPathsList;
+    }
+    //-------------------------
 
     public PhotoStep(String stepTitle, Activity activity, RegistrationNumberStep registrationNumberStep) {
         super(stepTitle);
-        this.myParentActivity=activity;     //potrzebne zeby wywoływać intenty z poziomy mainActivity
+        this.myParentActivity = activity;     //potrzebne zeby wywoływać intenty z poziomy mainActivity
         this.registrationNumberStep = registrationNumberStep;
     }
 
 
 
     @Override
-    protected View createStepContentLayout() {
+    public View createStepContentLayout() {
         // Here we generate the view that will be used by the library as the content of the step.
-        // In this case we do it programmatically, but we could also do it by inflating an XML layout.
-        inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.step_photo,null);
+
+        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.step_photo, null);
 
         takePhotoButton = view.findViewById(R.id.take_photo_button);
         loadPhotoButton = view.findViewById(R.id.load_photo_button);
 
+        recyclerView = view.findViewById(R.id.image_gallery);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +132,6 @@ public class PhotoStep extends Step<String> {
         });
 
 
-
         loadPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,6 +155,21 @@ public class PhotoStep extends Step<String> {
     }
 
 
+    public void setAdapter()
+    {
+        if(storageFilesPathsList.size()==0)
+        {
+            recyclerView.setVisibility(View.GONE);
+        }
+        else
+        {
+            recyclerView.setVisibility(View.VISIBLE);
+            galleryAdapter = new GalleryAdapter(storageFilesPathsList, getContext(),PhotoStep.this);
+            recyclerView.setAdapter(galleryAdapter);
+            Log.d("photosSize", String.valueOf(storageFilesPathsList.size()));
+        }
+
+    }
 
     private File createImageFile() {
         // Create an image file name
@@ -148,20 +179,17 @@ public class PhotoStep extends Step<String> {
 
         File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-        registrationNumber=registrationNumberStep.getRegistrationNumber();
+        registrationNumber = registrationNumberStep.getRegistrationNumber();
 
         imageName = registrationNumber + timeStamp + ".jpg";
 
-        File image = new File(storageDir,imageName);
+        File image = new File(storageDir, imageName);
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
-    public Uri getImageUri() {
-        return imageUri;
-    }
 
     public String getImageName() {
         return imageName;
@@ -172,17 +200,15 @@ public class PhotoStep extends Step<String> {
         // The step's data (i.e., the user name) will be considered valid only if it is longer than
         // three characters. In case it is not, we will display an error message for feedback.
         // In an optional step, you should implement this method to always return a valid value.
-        
+
         boolean isTimeValid = true;
-
-
         return new IsDataValid(isTimeValid);
     }
 
     @Override
     public String getStepData() {
         // We get the step's data from the value that the user has typed in the EditText view.
-        return "" ;
+        return "";
     }
 
     @Override
@@ -197,6 +223,7 @@ public class PhotoStep extends Step<String> {
     @Override
     protected void onStepOpened(boolean animated) {
         // This will be called automatically whenever the step gets opened.
+        setAdapter();
     }
 
     @Override

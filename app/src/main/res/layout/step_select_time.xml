@@ -21,6 +21,7 @@
         android:textSize="25sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/pick_time_button"
+        android:visibility="gone"
         />
 
 </RelativeLayout>

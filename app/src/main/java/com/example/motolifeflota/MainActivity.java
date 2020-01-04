@@ -3,38 +3,35 @@ package com.example.motolifeflota;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.graphics.Bitmap;
-import android.graphics.Color;
+
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import com.example.motolifeflota.Email.GMailSender;
 import com.example.motolifeflota.Vertical_form_steps.DescriptionStep;
 import com.example.motolifeflota.Vertical_form_steps.NameStep;
 import com.example.motolifeflota.Vertical_form_steps.PhoneNumberStep;
+
 import com.example.motolifeflota.Vertical_form_steps.PhotoStep.PhotoStep;
 import com.example.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
 import com.example.motolifeflota.Vertical_form_steps.SelectDateStep;
 import com.example.motolifeflota.Vertical_form_steps.SelectTimeStep;
 import com.hbisoft.pickit.PickiT;
 import com.hbisoft.pickit.PickiTCallbacks;
-import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.io.File;
@@ -47,11 +44,6 @@ import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener;
 
 public class MainActivity extends AppCompatActivity implements PickiTCallbacks, StepperFormListener {
 
-    private EditText nr_rejestracyjny, imie_i_nazwisko, opis, nr_telefonu;
-    private TextView dzien_textView, godzina_textView;
-    private Button wyslij, zadzwon, dzien_button, godzina_button, zrob_zdjecie, wczytaj_zdjecie, deletePhoto;
-    private DatePickerDialog picker;
-    private ImageView imageView;
 
     private final static String myPhoneNumberUri = "tel:+48664135806";
 
@@ -118,45 +110,11 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
         //Jeżeli zrobiono zdjęcie
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-            try {
                 isAttachment = true;
-
-                imageUri = photoStep.getImageUri(); //FileProvider.getUriForFile(MainActivity.this, "com.example.motolifeflota.fileprovider", imageFile);
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.this.getContentResolver(), imageUri);    //Stworzenie bitmap znajac uri
 
                 storageFilesPathsList.add("/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/" + photoStep.getImageName());
 
-
-                /*Matrix matrix = new Matrix();           //obrocenie zdjecia o 90 stopni
-                matrix.postRotate(90);
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
-                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-                */
-
-                //imageView.setVisibility(View.VISIBLE);
-                //imageView.setImageBitmap(rotatedBitmap);
-
-
-                /*deletePhoto.setVisibility(View.VISIBLE);
-                deletePhoto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        isAttachment = false;
-                        if (isAttachment) {
-                            imageFile.delete();
-                        }
-
-                        imageView.setVisibility(View.GONE);
-                        deletePhoto.setVisibility(View.GONE);
-                        clearDirectory();
-                        nrOfTakenPhotos = 0;
-                    }
-                });*/
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                setNewGalleryAdapter();
         }
 
 
@@ -167,20 +125,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
             }
         }
 
-        //jezeli cos nie zadziala wyswietl komunikat
-        if (resultCode != RESULT_OK) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)//set icon
-                    .setTitle("Error")//set title
-                    .setMessage("Wystąpił nieoczekiwany błąd, spróbuj ponownie")     //set message
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {//set positive button
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-                    })
-                    .show();
-        }
+
 
 
     }
@@ -319,12 +264,18 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
 
     }
 
+    private void setNewGalleryAdapter() {
+        photoStep.setStorageFilesPathsList(storageFilesPathsList);
+        photoStep.setAdapter();
+    }
+
     @Override
     public void PickiTonCompleteListener(String path, boolean wasDriveFile, boolean wasUnknownProvider, boolean wasSuccessful, String Reason) {
 
         isAttachment = true;
         storageFilesPathsList.add(path);
         Log.d("pickItPath", path + "   <--- wygenerwowane dzieki bibliotece pickit");
+        setNewGalleryAdapter();
     }
 
 
