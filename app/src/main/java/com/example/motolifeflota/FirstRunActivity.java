@@ -35,7 +35,7 @@ public class FirstRunActivity extends AppCompatActivity {
         password=findViewById(R.id.app_password_EditText);
         myLoadingButton=findViewById(R.id.my_loading_button);
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("Password", Context.MODE_PRIVATE); // 0 - for private mode
+        sharedPreferences = getApplicationContext().getSharedPreferences("AppPassword", Context.MODE_PRIVATE); // 0 - for private mode
 
         if(isLoggedIn())
         {
@@ -60,7 +60,7 @@ public class FirstRunActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putBoolean("Password", true); // Storing boolean - true/false
+                                    editor.putBoolean("AppPassword", true); // Storing boolean - true/false
                                     editor.commit(); // commit changes
 
                                     Intent goToMainActivityIntent = new Intent(FirstRunActivity.this, MainActivity.class);
@@ -94,13 +94,17 @@ public class FirstRunActivity extends AppCompatActivity {
     }
 
     private boolean isLoggedIn() {
-        sharedPreferences = getApplicationContext().getSharedPreferences("Password", Context.MODE_PRIVATE); // 0 - for private mode
 
-        if(!sharedPreferences.getBoolean("Password", false))
+        //sharedPreferences = getApplicationContext().getSharedPreferences("Password", Context.MODE_PRIVATE); // 0 - for private mode
+
+        if(!sharedPreferences.getBoolean("AppPassword",false))
         {
             return false;
         }
         else
-        return true;
+        {
+            return true;
+        }
+
     }
 }

@@ -165,12 +165,12 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
             @Override
             public void run() {
                 try {
-                    GMailSender sender = new GMailSender("rozproszonebazy@gmail.com", "MotoLifeFlota");
+                    GMailSender sender = new GMailSender("motolifeflota@gmail.com", "motolifeapp1.0");
 
                     sender.sendMail(getBaseContext().getString(R.string.Email_title) + registrationNumberStep.getRegistrationNumber(),               //title - subject
                             email_body,                                                    //body message
-                            "lisuoskar@gmail.com",                                 //sender
-                            "oskail@wp.pl",                                      //recipent
+                            "motolifeflota@gmail.com",                              //sender
+                            "oskail@wp.pl",                                      //recipent flota@motolife.pl
                             storageFilesPathsList);
 
                     mDialog.dismiss();
