@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                     sender.sendMail(getBaseContext().getString(R.string.Email_title) + registrationNumberStep.getRegistrationNumber(),               //title - subject
                             email_body,                                                    //body message
                             "motolifeflota@gmail.com",                              //sender
-                            "oskail@wp.pl",                                      //recipent flota@motolife.pl
+                            "flota@motolife.pl",                                      //recipent flota@motolife.pl
                             storageFilesPathsList);
 
                     mDialog.dismiss();
