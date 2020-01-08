@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.motolife.motolifeflota.FirstRunActivity">
+
+
+    <TextView
+        android:id="@+id/firstRun_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/app_password"
+        android:text="Aby korzystać z aplikacji podaj hasło dostępu:"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/app_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@+id/firstRun_textView"
+        android:layout_alignRight="@+id/firstRun_textView"
+        android:hint="Haslo"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/app_password_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textSize="20sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.example.myloadingbutton.MyLoadingButton
+
+        android:id="@+id/my_loading_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/firstRun_textView"
+        android:layout_alignRight="@+id/firstRun_textView"
+        android:layout_below="@+id/app_password"
+        android:layout_centerHorizontal="true"
+
+        app:mlb_animationDuration="300"
+        app:mlb_backgroundColor="@color/view_color_gray"
+        app:mlb_label="Zatwierdź"
+        app:mlb_labelColor="@color/colorBlack"
+        app:mlb_labelSize="7sp"
+        app:mlb_loaderColor="@color/colorPrimaryDark"
+        app:mlb_setDoneIcon="@drawable/ic_check"
+        app:mlb_setErrorIcon="@drawable/ic_clear"
+        app:mlb_setNormalAfterError="true" />
+
+
+</RelativeLayout>
