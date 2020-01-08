@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/localization_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_gps_fixed"
+        android:layout_centerHorizontal="true"
+        />
+
+
+    <TextView
+        android:id="@+id/address_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/localization_button"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

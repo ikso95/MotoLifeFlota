@@ -18,8 +18,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.motolife.motolifeflota.Email.GMailSender;
-import com.motolife.motolifeflota.R;
 import com.motolife.motolifeflota.Vertical_form_steps.DescriptionStep;
+import com.motolife.motolifeflota.Vertical_form_steps.LocalizationStep;
 import com.motolife.motolifeflota.Vertical_form_steps.NameStep;
 import com.motolife.motolifeflota.Vertical_form_steps.PhoneNumberStep;
 
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
     private SelectDateStep selectDateStep;
     private SelectTimeStep selectTimeStep;
     private PhotoStep photoStep;
+    private LocalizationStep localizationStep;
 
     private VerticalStepperFormView verticalStepperForm;
 
@@ -84,10 +85,11 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
         selectDateStep = new SelectDateStep("Data");
         selectTimeStep = new SelectTimeStep("Godzina");
         photoStep = new PhotoStep("Zdjęcie", MainActivity.this, registrationNumberStep);
+        localizationStep = new LocalizationStep("Udostępnij lokalizajce",MainActivity.this, this);
 
 
         verticalStepperForm.setup(this, nameStep, phoneNumberStep,
-                registrationNumberStep, descriptionStep, selectDateStep, selectTimeStep, photoStep)
+                registrationNumberStep, descriptionStep, selectDateStep, selectTimeStep,localizationStep, photoStep)
                 .stepNextButtonText("Dalej")
                 .displayCancelButtonInLastStep(true)
                 .lastStepNextButtonText("Wyślij")
@@ -146,7 +148,8 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                 "Dane kontaktowe zgłaszającego: " + phoneNumberStep.getPhoneNumber() + "\n" +
                 "Numer rejestracyjny: " + registrationNumberStep.getRegistrationNumber() + "\n" +
                 "Data usterki: " + selectDateStep.getDate() + "  " + (selectTimeStep.getTime().matches("") ? selectTimeStep.getTime() : "") + "\n" +
-                "Opis usterki: " + descriptionStep.getDescription();
+                "Opis usterki: " + descriptionStep.getDescription() + "\n" +
+                "Miejsce zgłoszenia: " + localizationStep.getAddress();
 
     }
 
