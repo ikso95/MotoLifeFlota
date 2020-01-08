@@ -1,4 +1,4 @@
-package com.example.motolifeflota.Email;
+package com.motolife.motolifeflota.Email;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

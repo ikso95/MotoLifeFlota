@@ -1,4 +1,4 @@
-package com.example.motolifeflota.Vertical_form_steps;
+package com.motolife.motolifeflota.Vertical_form_steps;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
-import com.example.motolifeflota.R;
+import com.motolife.motolifeflota.R;
 
 import java.util.Calendar;
 

@@ -1,43 +1,38 @@
-package com.example.motolifeflota;
+package com.motolife.motolifeflota;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.annotation.SuppressLint;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-
-import android.graphics.Bitmap;
 
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.motolifeflota.Email.GMailSender;
-import com.example.motolifeflota.Vertical_form_steps.DescriptionStep;
-import com.example.motolifeflota.Vertical_form_steps.NameStep;
-import com.example.motolifeflota.Vertical_form_steps.PhoneNumberStep;
+import com.motolife.motolifeflota.Email.GMailSender;
+import com.motolife.motolifeflota.R;
+import com.motolife.motolifeflota.Vertical_form_steps.DescriptionStep;
+import com.motolife.motolifeflota.Vertical_form_steps.NameStep;
+import com.motolife.motolifeflota.Vertical_form_steps.PhoneNumberStep;
 
-import com.example.motolifeflota.Vertical_form_steps.PhotoStep.PhotoStep;
-import com.example.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
-import com.example.motolifeflota.Vertical_form_steps.SelectDateStep;
-import com.example.motolifeflota.Vertical_form_steps.SelectTimeStep;
+import com.motolife.motolifeflota.Vertical_form_steps.PhotoStep.PhotoStep;
+import com.motolife.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
+import com.motolife.motolifeflota.Vertical_form_steps.SelectDateStep;
+import com.motolife.motolifeflota.Vertical_form_steps.SelectTimeStep;
 import com.hbisoft.pickit.PickiT;
 import com.hbisoft.pickit.PickiTCallbacks;
 
 import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
 
                 isAttachment = true;
 
-                storageFilesPathsList.add("/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures/" + photoStep.getImageName());
+                storageFilesPathsList.add("/storage/emulated/0/Android/data/com.motolife.motolifeflota/files/Pictures/" + photoStep.getImageName());
 
                 setNewGalleryAdapter();
         }
@@ -170,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                     sender.sendMail(getBaseContext().getString(R.string.Email_title) + registrationNumberStep.getRegistrationNumber(),               //title - subject
                             email_body,                                                    //body message
                             "motolifeflota@gmail.com",                              //sender
-                            "flota@motolife.pl",                                      //recipent flota@motolife.pl
+                            "oskail@wp.pl",                                      //recipent flota@motolife.pl
                             storageFilesPathsList);
 
                     mDialog.dismiss();
@@ -244,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
 
 
     private void clearDirectory() {
-        File dir = new File("/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures");
+        File dir = new File("/storage/emulated/0/Android/data/com.motolife.motolifeflota/files/Pictures");
         if (dir.isDirectory()) {
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++) {
@@ -258,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
     protected void onDestroy() {
         //Przy wyłączeniu aktywności usuwam całą zawartość naszego folderu, żeby unikać gromadzenia danych i związanych z tym bugów
         super.onDestroy();
-        File dir = new File("/storage/emulated/0/Android/data/com.example.motolifeflota/files/Pictures");
+        File dir = new File("/storage/emulated/0/Android/data/com.motolife.motolifeflota/files/Pictures");
         if (dir.isDirectory()) {
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++) {

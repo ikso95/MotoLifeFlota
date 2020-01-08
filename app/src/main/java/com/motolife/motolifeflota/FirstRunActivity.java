@@ -1,4 +1,4 @@
-package com.example.motolifeflota;
+package com.motolife.motolifeflota;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.widget.EditText;
 
 
+import com.motolife.motolifeflota.R;
 import com.example.myloadingbutton.MyLoadingButton;
 
 

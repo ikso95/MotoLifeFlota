@@ -1,4 +1,4 @@
-package com.example.motolifeflota.Vertical_form_steps;
+package com.motolife.motolifeflota.Vertical_form_steps;
 
 import android.content.Context;
 import android.text.Editable;
@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.motolifeflota.R;
+import com.motolife.motolifeflota.R;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 

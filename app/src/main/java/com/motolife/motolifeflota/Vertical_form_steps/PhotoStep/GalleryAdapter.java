@@ -1,22 +1,19 @@
-package com.example.motolifeflota.Vertical_form_steps.PhotoStep;
+package com.motolife.motolifeflota.Vertical_form_steps.PhotoStep;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.motolifeflota.R;
+import com.motolife.motolifeflota.R;
 
 import java.util.List;
 

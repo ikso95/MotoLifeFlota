@@ -4,7 +4,7 @@
 
     <external-path
         name="my_images"
-        path="Android/data/com.example.motolifeflota/files/Pictures"
+        path="Android/data/com.motolife.motolifeflota/files/Pictures"
         />
 
 

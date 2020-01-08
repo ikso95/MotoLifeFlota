@@ -1,4 +1,4 @@
-package com.example.motolifeflota;
+package com.motolife.motolifeflota;
 
 import android.content.Context;
 

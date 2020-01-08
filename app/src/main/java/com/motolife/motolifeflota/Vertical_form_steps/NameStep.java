@@ -1,46 +1,42 @@
-package com.example.motolifeflota.Vertical_form_steps;
+package com.motolife.motolifeflota.Vertical_form_steps;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.motolifeflota.R;
+import com.motolife.motolifeflota.R;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 
-public class PhoneNumberStep extends Step<String> {
+public class NameStep extends Step<String> {
 
-    public EditText phoneNumberEditText;
+    private EditText userNameEditText;
     private LayoutInflater inflater;
     private View view;
-    private String phoneNumber;
+    private String userName;
 
-
-    public PhoneNumberStep(String stepTitle) {
+    public NameStep(String stepTitle) {
         super(stepTitle);
     }
-
 
 
     @Override
     protected View createStepContentLayout() {
         // Here we generate the view that will be used by the library as the content of the step.
         // In this case we do it programmatically, but we could also do it by inflating an XML layout.
-
-
-        inflater = (LayoutInflater)getContext().getSystemService
+        inflater = (LayoutInflater) getContext().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.step_phone_number,null);
+        view = inflater.inflate(R.layout.step_name, null);
 
-        phoneNumberEditText = view.findViewById(R.id.phone_number_EditText);
+        userNameEditText = view.findViewById(R.id.name_EditText);
 
 
-        phoneNumberEditText.addTextChangedListener(new TextWatcher() {
+
+        userNameEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -57,7 +53,7 @@ public class PhoneNumberStep extends Step<String> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                phoneNumber=phoneNumberEditText.getText().toString().trim();
+                userName= userNameEditText.getText().toString().trim();
             }
         });
 
@@ -66,8 +62,8 @@ public class PhoneNumberStep extends Step<String> {
     }
 
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getUserName() {
+        return userName;
     }
 
     @Override
@@ -75,17 +71,14 @@ public class PhoneNumberStep extends Step<String> {
         // The step's data (i.e., the user name) will be considered valid only if it is longer than
         // three characters. In case it is not, we will display an error message for feedback.
         // In an optional step, you should implement this method to always return a valid value.
-
         boolean isNameValid = stepData.length() > 0;
-
-
         return new IsDataValid(isNameValid);
     }
 
     @Override
     public String getStepData() {
         // We get the step's data from the value that the user has typed in the EditText view.
-        Editable userName = phoneNumberEditText.getText();
+        Editable userName = userNameEditText.getText();
         return userName != null ? userName.toString() : "";
     }
 
@@ -101,25 +94,25 @@ public class PhoneNumberStep extends Step<String> {
     @Override
     protected void onStepOpened(boolean animated) {
         // This will be called automatically whenever the step gets opened.
-
-
-        MotionEvent eventDown = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0);
-        phoneNumberEditText.dispatchTouchEvent(eventDown);
-        eventDown.recycle();
-
-        MotionEvent eventUp = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0);
-        phoneNumberEditText.dispatchTouchEvent(eventUp);
-        eventUp.recycle();
-
-        // To be on the safe side, also use another method
-        phoneNumberEditText.setFocusableInTouchMode(true);
-        phoneNumberEditText.requestFocus();
-        phoneNumberEditText.requestFocusFromTouch();
     }
 
     @Override
     protected void onStepClosed(boolean animated) {
         // This will be called automatically whenever the step gets closed.
+
+        // simulate a click, which consists of ACTION_DOWN and ACTION_UP
+        MotionEvent eventDown = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0);
+        userNameEditText.dispatchTouchEvent(eventDown);
+        eventDown.recycle();
+
+        MotionEvent eventUp = MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0);
+        userNameEditText.dispatchTouchEvent(eventUp);
+        eventUp.recycle();
+
+        // To be on the safe side, also use another method
+        userNameEditText.setFocusableInTouchMode(true);
+        userNameEditText.requestFocus();
+        userNameEditText.requestFocusFromTouch();
     }
 
     @Override
@@ -135,6 +128,6 @@ public class PhoneNumberStep extends Step<String> {
     @Override
     public void restoreStepData(String stepData) {
         // To restore the step after a configuration change, we restore the text of its EditText view.
-        phoneNumberEditText.setText(stepData);
+        userNameEditText.setText(stepData);
     }
 }

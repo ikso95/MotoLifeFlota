@@ -1,4 +1,4 @@
-package com.example.motolifeflota.Vertical_form_steps.PhotoStep;
+package com.motolife.motolifeflota.Vertical_form_steps.PhotoStep;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -12,9 +12,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.app.ActivityCompat;
@@ -22,12 +19,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.example.motolifeflota.MainActivity;
-import com.example.motolifeflota.PhotosRecyclerView.SliderAdapter;
-import com.example.motolifeflota.R;
-import com.example.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
+import com.motolife.motolifeflota.R;
+import com.motolife.motolifeflota.Vertical_form_steps.RegistrationNumberStep;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -119,7 +113,7 @@ public class PhotoStep extends Step<String> {
 
 
                         if (imageFile != null) {                                            //jezeli plik istnieje podajemy Uri-adres pod ktorym ma byc zapisany obraz, miejsce na dysku
-                            imageUri = FileProvider.getUriForFile(getContext(), "com.example.motolifeflota.fileprovider", imageFile);
+                            imageUri = FileProvider.getUriForFile(getContext(), "com.motolife.motolifeflota.fileprovider", imageFile);
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);   //dodajemy obraz do intent  - przez to ze dodajemy uri mamy adres zdjecia, nie otrzymamy w extras thumbnail obrazu (miniaturki)
                             myParentActivity.startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);    //uruchamiamy intnet
                         }

@@ -1,25 +1,16 @@
-package com.example.motolifeflota.Vertical_form_steps;
+package com.motolife.motolifeflota.Vertical_form_steps;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.os.Build;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
-import com.example.motolifeflota.MainActivity;
-import com.example.motolifeflota.R;
+import com.motolife.motolifeflota.R;
 
 import java.util.Calendar;
 

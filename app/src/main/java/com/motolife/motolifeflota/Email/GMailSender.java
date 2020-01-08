@@ -1,8 +1,5 @@
-package com.example.motolifeflota.Email;
+package com.motolife.motolifeflota.Email;
 
-import android.util.Log;
-
-import java.io.File;
 import java.security.Security;
 import java.util.List;
 import java.util.Properties;

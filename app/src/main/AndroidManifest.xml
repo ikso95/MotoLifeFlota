@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.motolifeflota">
+    package="com.motolife.motolifeflota">
 
     <uses-feature
         android:name="android.hardware.camera2"
@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true">
         <activity
-            android:name=".FirstRunActivity"
+            android:name="com.motolife.motolifeflota.FirstRunActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
 
@@ -31,16 +31,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait">
 
+        <activity
+            android:name="com.motolife.motolifeflota.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
         </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.motolifeflota.fileprovider"
+            android:authorities="com.motolife.motolifeflota.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

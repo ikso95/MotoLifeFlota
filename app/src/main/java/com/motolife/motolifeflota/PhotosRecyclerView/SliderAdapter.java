@@ -1,22 +1,19 @@
-package com.example.motolifeflota.PhotosRecyclerView;
+package com.motolife.motolifeflota.PhotosRecyclerView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.example.motolifeflota.MainActivity;
-import com.example.motolifeflota.R;
+import com.motolife.motolifeflota.R;
 
 
 public class SliderAdapter extends PagerAdapter {
