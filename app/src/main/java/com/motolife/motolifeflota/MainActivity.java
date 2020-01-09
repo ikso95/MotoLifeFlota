@@ -85,11 +85,11 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
         selectDateStep = new SelectDateStep("Data");
         selectTimeStep = new SelectTimeStep("Godzina");
         photoStep = new PhotoStep("Zdjęcie", MainActivity.this, registrationNumberStep);
-        localizationStep = new LocalizationStep("Udostępnij lokalizajce",MainActivity.this, this);
+        localizationStep = new LocalizationStep("Udostępnij lokalizajce", MainActivity.this, this);
 
 
         verticalStepperForm.setup(this, nameStep, phoneNumberStep,
-                registrationNumberStep, descriptionStep, selectDateStep, selectTimeStep,localizationStep, photoStep)
+                registrationNumberStep, descriptionStep, selectDateStep, selectTimeStep, localizationStep, photoStep)
                 .stepNextButtonText("Dalej")
                 .displayCancelButtonInLastStep(true)
                 .lastStepNextButtonText("Wyślij")
@@ -121,11 +121,11 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
         //Jeżeli zrobiono zdjęcie
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-                isAttachment = true;
+            isAttachment = true;
 
-                storageFilesPathsList.add("/storage/emulated/0/Android/data/com.motolife.motolifeflota/files/Pictures/" + photoStep.getImageName());
+            storageFilesPathsList.add("/storage/emulated/0/Android/data/com.motolife.motolifeflota/files/Pictures/" + photoStep.getImageName());
 
-                setNewGalleryAdapter();
+            setNewGalleryAdapter();
         }
 
 
@@ -135,8 +135,6 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                 pickiT.getPath(data.getData(), Build.VERSION.SDK_INT);
             }
         }
-
-
 
 
     }
@@ -149,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                 "Numer rejestracyjny: " + registrationNumberStep.getRegistrationNumber() + "\n" +
                 "Data usterki: " + selectDateStep.getDate() + "  " + (selectTimeStep.getTime().matches("") ? selectTimeStep.getTime() : "") + "\n" +
                 "Opis usterki: " + descriptionStep.getDescription() + "\n" +
-                "Miejsce zgłoszenia: " + localizationStep.getAddress();
-
+                "Miejsce zgłoszenia określone na podstawie GPS: " + (!localizationStep.getAddress().matches("") ? (localizationStep.getAddress() + "\n"+ "Długość geograficzna: " + localizationStep.getLongitude()+ "\n" +
+                "Szerokość geograficzna: " + localizationStep.getLatitude()) : "użytkownik nie udostępnił lokalizacji") ;
     }
 
 
@@ -168,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
                     sender.sendMail(getBaseContext().getString(R.string.Email_title) + registrationNumberStep.getRegistrationNumber(),               //title - subject
                             email_body,                                                    //body message
                             "motolifeflota@gmail.com",                              //sender
-                            "oskail@wp.pl",                                      //recipent flota@motolife.pl
+                            "flota@motolife.pl",                                      //recipent flota@motolife.pl
                             storageFilesPathsList);
 
                     mDialog.dismiss();

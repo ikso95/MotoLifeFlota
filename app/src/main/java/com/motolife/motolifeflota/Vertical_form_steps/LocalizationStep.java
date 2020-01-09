@@ -50,9 +50,11 @@ public class LocalizationStep extends Step<String> implements LocationListener {
     static final int LOCALIZATION_PERMISSION_CODE = 5;
     private FusedLocationProviderClient mFusedLocationClient;
     private  Context context;
-    private String address;
+    private String address="";
     private MaterialDialog mDialog;
     private MainActivity mainActivity;
+    private String latitude = "";
+    private String longitude = "";
 
 
     public LocalizationStep(String stepTitle, Context context, MainActivity mainActivity) {
@@ -99,9 +101,13 @@ public class LocalizationStep extends Step<String> implements LocationListener {
     @SuppressLint("MissingPermission")
     private void getLastLocation(){
 
+        requestNewLocationData();
+
             if (isLocationEnabled()) {
+
                 mFusedLocationClient.getLastLocation().addOnCompleteListener(
                         new OnCompleteListener<Location>() {
+
                             @Override
                             public void onComplete(@NonNull Task<Location> task) {
                                 Location location = task.getResult();
@@ -126,6 +132,8 @@ public class LocalizationStep extends Step<String> implements LocationListener {
                                     //String postalCode = addresses.get(0).getPostalCode();
                                     //String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
 
+                                    latitude=String.valueOf(location.getLatitude());
+                                    longitude=String.valueOf(location.getLongitude());
 
                                     addressTextView.setVisibility(View.VISIBLE);
                                     addressTextView.setText(address);
@@ -204,6 +212,14 @@ public class LocalizationStep extends Step<String> implements LocationListener {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
     }
 
     @Override

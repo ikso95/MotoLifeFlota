@@ -5,6 +5,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/opcjonalnyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_marginLeft="5dp"
+        android:text="* Ten etap jest nieobowiązkowy"
+        />
 
     <LinearLayout
         android:id="@+id/layout"
@@ -12,6 +20,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
+        android:layout_below="@+id/opcjonalnyTextView"
+        android:layout_marginTop="5dp"
         >
 
         <androidx.appcompat.widget.AppCompatImageButton
