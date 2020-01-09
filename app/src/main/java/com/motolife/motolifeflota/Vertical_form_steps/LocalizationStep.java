@@ -139,7 +139,8 @@ public class LocalizationStep extends Step<String> implements LocationListener {
                 //context.startActivity(intent);
 
                 mainActivity.runOnUiThread(new Runnable() {
-                    @Override
+
+                    @SuppressLint("RestrictedApi")
                     public void run() {
 
                         mDialog = new MaterialDialog.Builder(mainActivity)

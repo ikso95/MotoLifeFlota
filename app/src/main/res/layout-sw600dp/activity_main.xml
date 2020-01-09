@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/zadzwon_button"
-                >
+            >
 
 
         <ernestoyaquello.com.verticalstepperform.VerticalStepperFormView
@@ -25,6 +25,7 @@
             app:form_next_button_pressed_background_color="@color/colorLightGreen"
             app:form_cancel_button_background_color="@color/colorRedMotoLife"
             app:form_display_bottom_navigation="false"
+
             />
 
         </ScrollView>
@@ -34,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Zadzwoń do Motolife "
+            android:textSize="30dp"
             android:layout_alignParentBottom="true"
             />
 
