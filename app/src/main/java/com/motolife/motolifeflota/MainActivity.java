@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
         localizationStep = new LocalizationStep("Udostępnij lokalizajce", MainActivity.this, this);
 
 
+
         verticalStepperForm.setup(this, nameStep, phoneNumberStep,
                 registrationNumberStep, descriptionStep, selectDateStep, selectTimeStep, localizationStep, photoStep)
                 .stepNextButtonText("Dalej")
@@ -116,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements PickiTCallbacks, 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-
 
         //Jeżeli zrobiono zdjęcie
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {

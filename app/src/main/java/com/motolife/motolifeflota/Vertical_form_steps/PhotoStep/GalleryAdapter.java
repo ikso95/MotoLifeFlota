@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.motolife.motolifeflota.R;
 
+import java.io.File;
 import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
@@ -57,6 +58,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
         ((ViewHolder) holder).button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //usuniecie pliku z pamieci telefonu
+                File file  = new File(storageFilesPathsList.get(position));
+                boolean deleted  = file.delete();
+
+
                 storageFilesPathsList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, storageFilesPathsList.size());
